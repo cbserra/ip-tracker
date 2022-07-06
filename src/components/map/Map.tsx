@@ -1,44 +1,10 @@
-import L, { Icon, LatLng, LatLngTuple, Rectangle } from "leaflet";
-import {
-  useLeafletContext,
-  createElementHook,
-  createElementObject,
-  useLayerLifecycle,
-  createPathHook,
-  createLeafComponent,
-} from "@react-leaflet/core";
+import L, { LatLng } from "leaflet";
 
 import { useEffect, useRef, useState } from "react";
-import {
-  // Map,
-  MapContainer,
-  Marker,
-  Popup,
-  TileLayer,
-  useMapEvents,
-} from "react-leaflet";
+import { MapContainer, Marker, TileLayer } from "react-leaflet";
 import iconLocation from "../../images/icon-location.svg";
 import "leaflet/dist/leaflet.css";
 import { useCallback } from "react";
-
-// function getBounds(props) {
-//   return L.latLng(props.center).toBounds(props.size);
-// }
-// function createSquare(props, context) {
-//   return createElementObject(new L.Rectangle(getBounds(props)), context);
-// }
-
-// function updateSquare(instance, props, prevProps) {
-//   if (props.center !== prevProps.center || props.size !== prevProps.size) {
-//     instance.setBounds(getBounds(props));
-//   }
-// }
-
-// const useSquareElement = createElementHook(createSquare, updateSquare);
-// const useSquare = createPathHook(useSquareElement);
-// const Square = createLeafComponent(useSquare);
-
-// const center = L.latLng([51.505, -0.09]);
 
 const MapComponent = (props: { latLng: number[] }) => {
   // const [latitude, setLatitude] = useState(0);
@@ -49,17 +15,17 @@ const MapComponent = (props: { latLng: number[] }) => {
   const mapRef = useRef();
   const markerRef = useRef();
 
-  const handleOnFlyTo = useCallback(() => {
-    const { current = {} } = mapRef;
-    const { leafletElement: map } = current;
+  // const handleOnFlyTo = useCallback(() => {
+  //   const { current = {} } = mapRef;
+  //   const { leafletElement: map } = current;
 
-    const { current = {} } = markerRef;
-    const { leafletElement: marker } = current;
+  //   const { current = {} } = markerRef;
+  //   const { leafletElement: marker } = current;
 
-    map.flyTo(latLong, 14, {
-      duration: 2,
-    });
-  }, [latLong]);
+  //   map.flyTo(latLong, 14, {
+  //     duration: 2,
+  //   });
+  // }, [latLong]);
 
   // const LocationMarker = (latLong: LatLng) => {
   //     const [position, setPosition] = useState(null)
@@ -97,13 +63,13 @@ const MapComponent = (props: { latLng: number[] }) => {
     );
     setLatLong(localLatLong);
 
-    handleOnFlyTo();
+    // handleOnFlyTo();
 
     // console.log(
     //   "🚀 ~ file: Map.tsx ~ line 69 ~ useEffect ~ LocationMarker(localLatLong)",
     //   LocationMarker(localLatLong)
     // );
-  }, [handleOnFlyTo, props.latLng]);
+  }, [props.latLng]); //[handleOnFlyTo, props.latLng]);
 
   return (
     //   <MapContainer center={center} zoom={13}>
