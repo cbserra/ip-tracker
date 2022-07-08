@@ -52,7 +52,10 @@ const Map = (props: { latLng: number[] }) => {
 
   useEffect(() => {
     if (mapRef.current) {
-      mapRef.current.flyTo(latLong, mapRef.current.getZoom());
+      mapRef.current.flyTo(latLong, mapRef.current.getZoom(), {
+        duration: 2,
+        easeLinearity: 0.25,
+      });
     }
 
     if (markerRef.current) {
@@ -69,7 +72,7 @@ const Map = (props: { latLng: number[] }) => {
         center={[0, 0]}
         zoom={13}
         ref={mapRef}
-        // scrollWheelZoom={false}
+        scrollWheelZoom={false}
         zoomControl={true}
       >
         <TileLayer
