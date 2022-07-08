@@ -1,19 +1,25 @@
 import L, { LatLng } from "leaflet";
 
 import { useEffect, useRef, useState } from "react";
-import { MapContainer, Marker, TileLayer } from "react-leaflet";
+import {
+  // Map,
+  MapContainer,
+  Marker,
+  Popup,
+  TileLayer,
+  useMapEvents,
+} from "react-leaflet";
 import iconLocation from "../../images/icon-location.svg";
 import "leaflet/dist/leaflet.css";
 import { useCallback } from "react";
+import { Map as LeafletMap, Marker as LeafletMarker } from "leaflet";
 
-const MapComponent = (props: { latLng: number[] }) => {
-  // const [latitude, setLatitude] = useState(0);
-  // const [longitude, setLongitude] = useState(0);
+const Map = (props: { latLng: number[] }) => {
   const [latLong, setLatLong] = useState<LatLng>(
     L.latLng(props.latLng[0], props.latLng[1])
   );
-  const mapRef = useRef();
-  const markerRef = useRef();
+  const mapRef = useRef<LeafletMap>();
+  const markerRef = useRef<LeafletMarker>();
 
   // const handleOnFlyTo = useCallback(() => {
   //   const { current = {} } = mapRef;
@@ -27,35 +33,7 @@ const MapComponent = (props: { latLng: number[] }) => {
   //   });
   // }, [latLong]);
 
-  // const LocationMarker = (latLong: LatLng) => {
-  //     const [position, setPosition] = useState(null)
-  //     const map = useMapEvents({
-  //       update() {
-  //         setPosition(latLong)
-  //         map.flyTo(latLong, map.getZoom())
-  //       }
-  //       // click() {
-  //       //   map.locate()
-  //       // },
-  //       // locationfound(e) {
-  //       //   setPosition(e.latlng)
-  //       //   map.flyTo(e.latlng, map.getZoom())
-  //       // },
-  //     })
-
-  //     return position === null ? null : (
-  //       <Marker position={position}>
-  //         <Popup>You are here</Popup>
-  //       </Marker>
-  //     )
-  // }
-
   useEffect(() => {
-    // console.log(
-    //   "🚀 ~ file: Map.tsx ~ line 12 ~ Map ~ props.latLongStr",
-    //   props.latLng
-    // );
-
     const localLatLong: LatLng = L.latLng(props.latLng[0], props.latLng[1]);
     console.log(
       "🚀 ~ file: Map.tsx ~ line 15 ~ useEffect ~ localLatLong",
@@ -63,53 +41,56 @@ const MapComponent = (props: { latLng: number[] }) => {
     );
     setLatLong(localLatLong);
 
-    // handleOnFlyTo();
+    // if (mapRef.current) {
+    //   mapRef.current.flyTo(localLatLong, mapRef.current.getZoom());
+    // }
 
-    // console.log(
-    //   "🚀 ~ file: Map.tsx ~ line 69 ~ useEffect ~ LocationMarker(localLatLong)",
-    //   LocationMarker(localLatLong)
-    // );
+    // if (markerRef.current) {
+    //   markerRef.current.setLatLng(localLatLong);
+    // }
   }, [props.latLng]); //[handleOnFlyTo, props.latLng]);
 
-  return (
-    //   <MapContainer center={center} zoom={13}>
-    //   <TileLayer
-    //     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    //     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-    //   />
-    //   <Square center={center} size={1000} />
-    // </MapContainer>
-    <>
-      {latLong && (
-        <MapContainer
-          className="map h-[90vh]"
-          center={latLong}
-          zoom={13}
-          ref={mapRef}
-          // scrollWheelZoom={false}
-          // zoomControl={true}
-        >
-          {/* <Map> */}
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
+  useEffect(() => {
+    if (mapRef.current) {
+      mapRef.current.flyTo(latLong, mapRef.current.getZoom());
+    }
 
-          <Marker
-            icon={L.icon({ iconUrl: iconLocation })}
-            draggable={true}
-            position={latLong}
-            ref={markerRef}
-          >
-            {/* <Popup>
-                A pretty CSS3 popup. <br /> Easily customizable.
-              </Popup> */}
-          </Marker>
-          {/* </Map> */}
-        </MapContainer>
-      )}
+    if (markerRef.current) {
+      markerRef.current.setLatLng(latLong);
+    }
+  }, [latLong]);
+
+  return (
+    <>
+      {/* {latLong && ( */}
+      <MapContainer
+        className="map h-[100vh]"
+        // center={latLong}
+        center={[0, 0]}
+        zoom={13}
+        ref={mapRef}
+        // scrollWheelZoom={false}
+        zoomControl={true}
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+
+        <Marker
+          icon={L.icon({ iconUrl: iconLocation })}
+          draggable={true}
+          position={latLong}
+          ref={markerRef}
+        >
+          {/* <Popup>
+              A pretty CSS3 popup. <br /> Easily customizable.
+            </Popup> */}
+        </Marker>
+      </MapContainer>
+      {/* )} */}
     </>
   );
 };
 
-export default MapComponent;
+export default Map;

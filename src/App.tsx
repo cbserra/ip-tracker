@@ -33,19 +33,6 @@ function App() {
   const [{ data, loading, error }, refetch] = useAxios<IpifyResponse>({
     params: IPIFY_DEFAULT_PARAMS,
   });
-  // const [{ data, loading, error }, refetch] = useAxios('http://ip-api.com/json/')
-
-  // useEffect(() => {
-  //   console.log(
-  //     "🚀 ~ file: App.tsx ~ line 42 ~ useEffect ~ requestIpAddress",
-  //     requestIpAddress
-  //   );
-  //   const ipAddress = requestIpAddress;
-
-  //   refetch({
-  //     params: { ...IPIFY_DEFAULT_PARAMS, ipAddress: ipAddress },
-  //   });
-  // }, [refetch, requestIpAddress]);
 
   useEffect(() => {
     console.log("🚀 ~ file: App.tsx ~ line 52 ~ useEffect ~ data", data);
@@ -55,50 +42,14 @@ function App() {
       setLatLng([data.location.lat, data.location.lng]);
     }
   }, [data]);
-  // useEffect(() => {
-  //   // async function fetchData() {
-  //   //   let response = await getIpApiResponse()
-  //   //   console.log("🚀 ~ file: App.tsx ~ line 61 ~ useEffect ~ response", response)
-  //   //   // ...
-  //   // }
-  //   // fetchData()
 
-  //   getIpAddressInfo()
-  //     .then((response) => response.data)
-  //     .then(setGeoIpResponse)
-  //     .catch((error: any) => {
-  //       console.error(
-  //         "🚀 ~ file: App.tsx ~ line 50 ~ getIpAddressInfo ~ error",
-  //         error
-  //       );
-  //     });
-  // }, []);
+  // if (loading) {
+  //   return <div>Loading...</div>;
+  // }
 
-  // useEffect(() => {
-  //   console.log(
-  //     "🚀 ~ file: App.tsx ~ line 35 ~ App ~ geoIpResponse",
-  //     geoIpResponse
-  //   );
-
-  //   setLatLongStr([geoIpResponse?.latitude, geoIpResponse?.longitude]);
-
-  //   const isValidCoords =
-  //     !isNaN(parseFloat(geoIpResponse?.latitude)) &&
-  //     !isNaN(parseFloat(geoIpResponse?.longitude));
-  //   console.log(
-  //     "🚀 ~ file: App.tsx ~ line 39 ~ useEffect ~ isValidCoords",
-  //     isValidCoords
-  //   );
-  //   setIsValidCoords(isValidCoords);
-  // }, [geoIpResponse]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error!</div>;
-  }
+  // if (error) {
+  //   return <div>Error!</div>;
+  // }
 
   return (
     <>
@@ -106,7 +57,6 @@ function App() {
         data={data}
         refetch={refetch}
         refetchParams={IPIFY_DEFAULT_PARAMS}
-        // ipifyResponse={ipifyResponse}
         requestIpAddress={requestIpAddress}
         setRequestIpAddress={setRequestIpAddress}
       />

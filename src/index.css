@@ -16,18 +16,19 @@
   }
 
   header::before {
-    @apply opacity-75 bg-contain absolute top-0 left-0 right-0 bottom-0;
-    background: url("images/pattern-bg.png");
+    @apply opacity-75 bg-cover absolute top-0 left-0 right-0 bottom-0;
+
     content: "";
   }
 
   header {
-    background-image: linear-gradient(
+    background-image: url("images/pattern-bg.png"),
+      linear-gradient(
         to bottom,
         hsla(224, 85%, 66%) 2.99%,
         hsla(245, 42%, 42%) 50%
-      ),
-      url("images/pattern-bg.png");
+      );
+    /* background: url("images/pattern-bg.png"); */
     @apply bg-cover shadow-lg;
     /* box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.195531); */
   }

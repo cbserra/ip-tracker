@@ -12,6 +12,7 @@ module.exports = {
     extend: {
       colors: {
         darkGray: 'hsl(0, 0%, 59%)',
+        buttonHoverGray: 'hsl(0, 0%, 25%)',
         veryDarkGray: 'hsl(0, 0%, 17%)'
       },
       fontSize: {

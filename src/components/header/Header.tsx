@@ -2,6 +2,8 @@ import { AxiosPromise, AxiosRequestConfig } from "axios";
 import { RefetchOptions } from "axios-hooks";
 import React, {
   ChangeEvent,
+  FormEvent,
+  FormEventHandler,
   useCallback,
   useEffect,
   useRef,
@@ -53,65 +55,57 @@ const Header = (props: {
     }
   }, [props.data, setRequestIpAddress]);
 
-  // useEffect(() => {
-  //   console.log(
-  //     "🚀 ~ file: Header.tsx ~ line 57 ~ useEffect ~ inputIpAddress",
-  //     inputIpAddress
-  //   );
-  //   console.log(
-  //     "🚀 ~ file: Header.tsx ~ line 58 ~ useEffect ~ requesetIpAddress",
-  //     requestIpAddress
-  //   );
-
-  //   setInputIpAddress(requestIpAddress);
-  // }, [inputIpAddress, requestIpAddress]);
-
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputIpAddress(event.target.value);
   };
 
-  const handleClick = useCallback(() => {
-    // setRequestIpAddress(inputIpAddress);
-    console.log(
-      "🚀 ~ file: Header.tsx ~ line 42 ~ handleClick ~ inputIpAddress",
-      inputIpAddress
-    );
-    type SearchKeyType = { [key in IpifySearchKey]?: string };
-    let searchParam: SearchKeyType = {};
-    if (IPV4_REGEX.test(inputIpAddress) || IPV6_REGEX.test(inputIpAddress)) {
+  const handleSubmit = useCallback(
+    (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      console.log("🚀 ~ file: Header.tsx ~ line 78 ~ event", event);
+      // setRequestIpAddress(inputIpAddress);
       console.log(
-        "🚀 ~ file: Header.tsx ~ line 68 ~ handleClick ~ inputIpAddress matches IP",
+        "🚀 ~ file: Header.tsx ~ line 81 ~ handleClick ~ inputIpAddress",
         inputIpAddress
       );
-      searchParam = { ipAddress: inputIpAddress };
-    } else if (EMAIL_REGEX.test(inputIpAddress)) {
-      console.log(
-        "🚀 ~ file: Header.tsx ~ line 74 ~ handleClick ~ inputIpAddress matches Email",
-        inputIpAddress
-      );
-      searchParam = { email: inputIpAddress };
-    } else if (HOSTNAME_REGEX.test(inputIpAddress)) {
-      console.log(
-        "🚀 ~ file: Header.tsx ~ line 71 ~ handleClick ~ inputIpAddress matches Hostname",
-        inputIpAddress
-      );
-      searchParam = { domain: inputIpAddress };
-    } else {
-      console.error(
-        "inputIpAddress contains an invalid value:",
-        inputIpAddress
-      );
-    }
+      type SearchKeyType = { [key in IpifySearchKey]?: string };
+      let searchParam: SearchKeyType = {};
+      if (IPV4_REGEX.test(inputIpAddress) || IPV6_REGEX.test(inputIpAddress)) {
+        console.log(
+          "🚀 ~ file: Header.tsx ~ line 88 ~ handleClick ~ inputIpAddress matches IP",
+          inputIpAddress
+        );
+        searchParam = { ipAddress: inputIpAddress };
+      } else if (EMAIL_REGEX.test(inputIpAddress)) {
+        console.log(
+          "🚀 ~ file: Header.tsx ~ line 94 ~ handleClick ~ inputIpAddress matches Email",
+          inputIpAddress
+        );
+        searchParam = { email: inputIpAddress };
+      } else if (HOSTNAME_REGEX.test(inputIpAddress)) {
+        console.log(
+          "🚀 ~ file: Header.tsx ~ line 100~ handleClick ~ inputIpAddress matches Hostname",
+          inputIpAddress
+        );
+        searchParam = { domain: inputIpAddress };
+      } else {
+        console.error(
+          "inputIpAddress contains an invalid value:",
+          inputIpAddress
+        );
+      }
 
-    console.log(
-      "🚀 ~ file: Header.tsx ~ line 92 ~ handleClick ~ searchParam",
-      searchParam
-    );
+      console.log(
+        "🚀 ~ file: Header.tsx ~ line 112 ~ handleClick ~ searchParam",
+        searchParam
+      );
 
-    refetch({
-      params: { ...refetchParams, ...searchParam },
-    });
-  }, [refetch, refetchParams, inputIpAddress]);
+      refetch({
+        params: { ...refetchParams, ...searchParam },
+      });
+    },
+    [refetch, refetchParams, inputIpAddress]
+  );
 
   const determineDstOffset = (
     offset: number,
@@ -143,20 +137,23 @@ const Header = (props: {
     <header className="relative flex flex-col gap-y-6 lg:gap-y-8 items-center justify-between h-[280px] w-full text-white pt-6">
       <h1 className="relative text-heading font-medium">IP Address Tracker</h1>
       <div className="relative flex w-[327px] lg:w-[555px]">
-        <input
-          type="text"
-          id="ipAddress"
-          className="text-input ip-address h-[58px] rounded-l-2xl w-full text-black pl-6"
-          onChange={handleInputChange}
-          value={inputIpAddress}
-          placeholder="Search for any IP address or domain"
-        />
-        <button
-          className="flex h-[58px] w-[58px] items-center justify-center rounded-r-2xl bg-black text-white"
-          onClick={handleClick}
-        >
-          <Arrow />
-        </button>
+        <form className="relative flex w-full" onSubmit={handleSubmit}>
+          <input
+            type="text"
+            id="ipAddress"
+            className="text-input ip-address h-[58px] rounded-l-2xl w-full text-black pl-6 focus-visible:outline-none"
+            onChange={handleInputChange}
+            value={inputIpAddress}
+            placeholder="Search for any IP address or domain"
+          />
+          <button
+            type="submit"
+            className="flex h-[58px] w-[58px] items-center justify-center rounded-r-2xl bg-black hover:bg-buttonHoverGray text-white"
+            // onClick={handleSubmit}
+          >
+            <Arrow />
+          </button>
+        </form>
       </div>
       <div className="relative z-[1000] sm:gap-y-6 lg:mt-6 shadow-2xl flex lg:flex-row sm:flex-col lg:gap-x-16  lg:py-9 lg:px-8 lg:text-left sm:text-center min-w-[327px] max-w-[1110px] justify-between bg-white rounded-2xl px-6 py-7">
         <div className="ip-address-resp">
