@@ -35,17 +35,24 @@
 
 @layer utilities {
   .response-key {
-    @apply font-sans font-bold text-key mix-blend-normal uppercase opacity-50 text-veryDarkGray;
+    @apply font-sans font-bold text-key mix-blend-normal uppercase opacity-50 text-veryDarkGray lg:text-key-lg;
     @apply mb-2 lg:mb-3;
     text-align: inherit;
   }
 
   .response-value {
-    @apply font-sans font-medium text-value text-veryDarkGray;
+    @apply font-sans font-medium text-value text-veryDarkGray lg:text-value-lg;
     text-align: inherit;
   }
 
   .header-info-border {
     @apply border-l-[1px] border-black border-opacity-[.15] pl-8;
+  }
+
+  .timezone-resp,
+  .isp-resp,
+  .locale-resp,
+  .ip-address-resp {
+    @apply lg:header-info-border;
   }
 }

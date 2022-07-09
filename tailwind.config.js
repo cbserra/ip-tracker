@@ -23,9 +23,13 @@ module.exports = {//withMT({
         veryDarkGray: 'hsl(0, 0%, 17%)'
       },
       fontSize: {
-        'heading': ['32px', {
+        'heading-lg': ['32px', {
           lineHeight: '30px',
           letterSpacing: '-0.29px'
+        }],
+        'heading': ['26px', {
+          lineHeight: '30px',
+          letterSpacing: '-0.23px'
         }],
         'input': ['18px', {
           lineHeight: '21px'
@@ -34,10 +38,18 @@ module.exports = {//withMT({
           lineHeight: '12px',
           letterSpacing: '1.45833px'
         }],
+        'key-lg': ['12px', {
+          lineHeight: '14px',
+          letterSpacing: '1.75px'
+        }],
         'value': ['20px', {
           lineHeight: '24px',
           letterSpacing: '-.78px'
-        }]
+        }],
+        'value-lg': ['26px', {
+          lineHeight: '30px',
+          letterSpacing: '-0.232143px'
+        }],
       },
     }
   },

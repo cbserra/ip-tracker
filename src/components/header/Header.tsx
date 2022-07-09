@@ -137,7 +137,9 @@ const Header = (props: {
 
   return (
     <header className="relative flex flex-col gap-y-6 lg:gap-y-8 items-center justify-between h-[280px] w-full text-white pt-6 transition-all duration-200">
-      <h1 className="relative text-heading font-medium">IP Address Tracker</h1>
+      <h1 className="relative text-heading lg:text-heading-lg font-medium">
+        IP Address Tracker
+      </h1>
       <div className="relative flex flex-col w-[327px] gap-6 lg:w-[555px]">
         <form
           className="relative flex w-full shadow-2xl "
@@ -189,12 +191,12 @@ const Header = (props: {
       </div>
 
       <div className="relative z-[1000] gap-y-6  shadow-2xl flex  flex-col text-center min-w-[327px] max-w-[1110px] justify-between bg-white rounded-2xl px-6 py-7  lg:flex-row  lg:gap-x-16 lg:py-9 lg:px-8 lg:text-left">
-        <div className="ip-address-resp">
+        <div className="response-datum-container ip-address-resp">
           <div className="response-key">ip address</div>
           <div className="response-value">{localIpifyResponse.current?.ip}</div>
         </div>
 
-        <div className="location-resp lg:header-info-border">
+        <div className="response-datum-container location-resp">
           <div className="response-key">location</div>
           <div className="response-value">
             {localIpifyResponse.current?.location.city},{" "}
@@ -203,14 +205,14 @@ const Header = (props: {
           </div>
         </div>
 
-        <div className="timezone-resp lg:header-info-border">
+        <div className="response-datum-container timezone-resp">
           <div className="response-key">time zone</div>
           <div className="response-value">
             UTC {localIpifyResponse.current?.location.timezone}
           </div>
         </div>
 
-        <div className="isp-resp lg:header-info-border">
+        <div className="response-datum-container isp-resp">
           <div className="response-key">isp</div>
           <div className="response-value">
             {localIpifyResponse.current?.isp}
