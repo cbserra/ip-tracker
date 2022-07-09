@@ -17,31 +17,35 @@
 
   header::before {
     @apply opacity-75 bg-cover absolute top-0 left-0 right-0 bottom-0;
-
     content: "";
   }
 
   header {
-    background-image: url("images/pattern-bg.png"),
+    /* background-image: url("images/pattern-bg.png"),
       linear-gradient(
         to bottom,
         hsla(224, 85%, 66%) 2.99%,
         hsla(245, 42%, 42%) 50%
-      );
+      ); */
     /* background: url("images/pattern-bg.png"); */
-    @apply bg-cover shadow-lg;
+    @apply bg-header-pattern bg-cover shadow-lg;
     /* box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.195531); */
   }
 }
 
 @layer utilities {
   .response-key {
-    @apply font-sans font-bold text-key text-center mix-blend-normal uppercase opacity-50 text-veryDarkGray;
+    @apply font-sans font-bold text-key mix-blend-normal uppercase opacity-50 text-veryDarkGray;
     @apply mb-2 lg:mb-3;
+    text-align: inherit;
   }
 
   .response-value {
     @apply font-sans font-medium text-value text-veryDarkGray;
     text-align: inherit;
+  }
+
+  .header-info-border {
+    @apply border-l-[1px] border-black border-opacity-[.15] pl-8;
   }
 }

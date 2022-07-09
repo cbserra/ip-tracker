@@ -53,8 +53,9 @@ const Map = (props: { latLng: number[] }) => {
   useEffect(() => {
     if (mapRef.current) {
       mapRef.current.flyTo(latLong, mapRef.current.getZoom(), {
-        duration: 2,
-        easeLinearity: 0.25,
+        animate: true,
+        duration: 5,
+        easeLinearity: 1,
       });
     }
 
@@ -74,6 +75,8 @@ const Map = (props: { latLng: number[] }) => {
         ref={mapRef}
         scrollWheelZoom={false}
         zoomControl={true}
+        zoomAnimation={true}
+        fadeAnimation={true}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -82,7 +85,7 @@ const Map = (props: { latLng: number[] }) => {
 
         <Marker
           icon={L.icon({ iconUrl: iconLocation })}
-          draggable={true}
+          draggable={false}
           position={latLong}
           ref={markerRef}
         >

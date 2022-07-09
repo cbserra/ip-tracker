@@ -1,5 +1,9 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+
+// const withMT = require("@material-tailwind/react/utils/withMT");
+
+
+module.exports = {//withMT({
   content: ["./src/**/*.{ts,tsx}", "./public/index.html"],
   theme: {
     screens: {
@@ -10,6 +14,9 @@ module.exports = {
       sans: 'Rubik'
     },
     extend: {
+      backgroundImage: {
+        'header-pattern': 'url("images/pattern-bg.png"), linear-gradient(to bottom,hsla(224, 85%, 66%) 2.99%,hsla(245, 42%, 42%) 50%)'
+      },
       colors: {
         darkGray: 'hsl(0, 0%, 59%)',
         buttonHoverGray: 'hsl(0, 0%, 25%)',
@@ -34,5 +41,6 @@ module.exports = {
       },
     }
   },
-  plugins: [],
+  plugins: []
 }
+//)

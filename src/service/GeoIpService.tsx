@@ -1,12 +1,5 @@
-import axios, { AxiosPromise, AxiosResponse } from "axios";
-import {
-  GeoIpResponse,
-  GetIpifyResponse,
-  IpApiResponse,
-  IpGeoConfigRequestParams,
-  IpifyResponse,
-} from "../types/Types";
-import wrapper from "axios-cache-plugin";
+import axios from "axios";
+import { GeoIpResponse, IpGeoConfigRequestParams } from "../types/Types";
 import { setupCache } from "axios-cache-adapter";
 
 const IP_GEO_ENDPOINT = "https://api.ipgeolocation.io/ipgeo";

@@ -181,3 +181,41 @@ export const hostnameRegExPattern =
   "^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]).)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9])$";
 export const emailRegExPattern =
   "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
+
+// In case I need to use a different API which doesn't format the DST offset.
+const determineDstOffset = (
+  offset: number,
+  isDst: boolean,
+  dstSavings: number
+) => {
+  const currentOffset = offset + (isDst ? dstSavings : 0);
+
+  if (currentOffset === 0) {
+    return "00:00";
+  }
+
+  const fractionalMinutes = currentOffset % 1;
+  const minutes = Math.floor(fractionalMinutes * 60);
+  const formattedMinutes = zeroPadIfNeeded(minutes);
+  const formattedHours = zeroPadIfNeeded(Math.floor(Math.abs(currentOffset)));
+
+  const formattedOffset =
+    (currentOffset < 0 ? "-" : "") + formattedHours + ":" + formattedMinutes;
+
+  return formattedOffset;
+
+  function zeroPadIfNeeded(value: number): string {
+    return (value < 10 ? "0" : "").concat(Math.floor(value).toString());
+  }
+};
+
+export interface IpTrackerResponse {
+  searchKey: IpifySearchKey;
+  searchValue: string;
+  ipAddress: string;
+  location: string;
+  timeZone: string;
+  isp: string;
+  lat: number;
+  lng: number;
+}
