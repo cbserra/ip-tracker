@@ -3,11 +3,7 @@ import useAxios, { configure } from "axios-hooks";
 import { useEffect, useState } from "react";
 import Header from "./components/header/Header";
 import MapComponent from "./components/map/Map";
-import {
-  IpifyConfigRequestParams,
-  IpifyResponse,
-  IpTrackerResponse,
-} from "./types/Types";
+import { IpifyConfigRequestParams, IpifyResponse } from "./types/Types";
 import LRU from "lru-cache";
 
 const IPIFY_API_KEY = "at_V78ozgFV7TkXKnnzzhkTH8iRUlQIS";
@@ -39,8 +35,8 @@ function App() {
     {}
   );
 
-  let inputValue: string;
   useEffect(() => {
+    let inputValue: string;
     if (response) {
       console.debug(
         "🚀 ~ file: App.tsx ~ line 45 ~ useEffect ~ response",
@@ -54,8 +50,6 @@ function App() {
       } else if (response.config.params.ip?.length > 0) {
         inputValue = response.config.params.ip;
       }
-
-      // setRequestIpAddress(inputValue);
     }
 
     if (data) {
@@ -67,55 +61,8 @@ function App() {
       setLatLng([data.location.lat, data.location.lng]);
     }
 
-    console.log(
-      "🚀 ~ file: App.tsx ~ line 67 ~ useEffect ~ inputValue",
-      inputValue
-    );
     setRequestIpAddress(inputValue);
-  }, [data]);
-
-  // useEffect(() => {
-  //   if (response) {
-  //     console.log(
-  //       "🚀 ~ file: App.tsx ~ line 47 ~ useEffect ~ response",
-  //       response
-  //     );
-  //     let inputValue = requestIpAddress;
-  //     if (response.config.params.email?.length > 0) {
-  //       inputValue = response.config.params.email;
-  //     } else if (response.config.params.domain?.length > 0) {
-  //       inputValue = response.config.params.domain;
-  //     } else if (response.config.params.ip?.length > 0) {
-  //       inputValue = response.config.params.ip;
-  //     }
-
-  //     setRequestIpAddress(inputValue);
-  //     console.log(
-  //       "🚀 ~ file: App.tsx ~ line 67 ~ useEffect ~ inputValue",
-  //       inputValue
-  //     );
-  //   }
-  // }, [response]);
-
-  // useEffect(() => {
-  //   console.error("🚀 ~ file: App.tsx ~ line 36 ~ App ~ error", error);
-  // }, [error]);
-
-  // useEffect(() => {
-  //   console.debug("🚀 ~ file: App.tsx ~ line 36 ~ App ~ loading", loading);
-  // }, [loading]);
-
-  // useEffect(() => {
-  //   console.debug("🚀 ~ file: App.tsx ~ line 36 ~ App ~ response", response);
-  // }, [response]);
-
-  // if (loading) {
-  //   return <div>Loading...</div>;
-  // }
-
-  // if (error) {
-  //   return <div>Error!</div>;
-  // }
+  }, [data, requestIpAddress, response]);
 
   return (
     <>
