@@ -26,10 +26,8 @@ configure({ axios, cache });
 // };
 
 function App() {
-  // const [ipifyResponse, setIpifyResponse] = useState<IpifyResponse>();
   const [requestIpAddress, setRequestIpAddress] = useState<string>("");
   const [latLng, setLatLng] = useState<number[]>([]);
-  // const [isValidCoords, setIsValidCoords] = useState(false);
 
   const [{ data, loading, error, response }, refetch] = useAxios<IpifyResponse>(
     {}

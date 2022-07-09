@@ -140,7 +140,7 @@ const Header = (props: {
       <h1 className="relative text-heading lg:text-heading-lg font-medium">
         IP Address Tracker
       </h1>
-      <div className="relative flex flex-col w-[327px] gap-6 lg:w-[555px]">
+      <div className="relative flex items-center flex-col w-[327px] gap-6 lg:w-[555px]">
         <form
           className="relative flex w-full shadow-2xl "
           onSubmit={handleSubmit}
@@ -151,7 +151,7 @@ const Header = (props: {
             className={cx(
               "appearance-none text-input ip-address h-[58px] rounded-l-2xl w-full text-black pl-6 focus:outline-none focus-visible:outline-none",
               invalidSearchInput
-                ? "border-solid border-red-600 text-red-600"
+                ? "border-solid border-[1px] border-red-600 text-red-600"
                 : ""
             )}
             onChange={handleInputChange}
@@ -167,16 +167,16 @@ const Header = (props: {
             <Arrow />
           </button>
         </form>
-        <div className="input-error relative flex w-full h-1/3">
+        <div className="input-error relative flex w-[327px] h-12">
           {invalidInputMsg && (
-            <div className="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-2xl shadow-2xl">
+            <div className="flex w-full max-w-sm mx-auto overflow-hidden bg-red-50 rounded-2xl shadow-2xl">
               <div className="py-2">
-                <p className="text-xs text-gray-600 text-center">
+                <p className="text-xs text-black text-center">
                   {invalidInputMsg}
                 </p>
               </div>
 
-              <div className="flex items-center justify-center w-[58px] bg-red-500">
+              <div className="flex items-center justify-center w-[58px] rounded-r-2xl bg-red-500 border-[1px] border-red-700">
                 <svg
                   className="w-6 h-6 text-white fill-current"
                   viewBox="0 0 40 40"
