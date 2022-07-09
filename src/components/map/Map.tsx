@@ -37,7 +37,7 @@ const Map = (props: { latLng: number[] }) => {
   }, [latLong]);
 
   return (
-    <>
+    <main>
       <MapContainer
         className="map h-[100vh]"
         center={[0, 0]}
@@ -60,7 +60,7 @@ const Map = (props: { latLng: number[] }) => {
           ref={markerRef}
         ></Marker>
       </MapContainer>
-    </>
+    </main>
   );
 };
 
