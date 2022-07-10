@@ -26,7 +26,6 @@ configure({ axios, cache });
 // };
 
 function App() {
-  const [requestIpAddress, setRequestIpAddress] = useState<string>("");
   const [latLng, setLatLng] = useState<number[]>([]);
 
   const [{ data, loading, error, response }, refetch] = useAxios<IpifyResponse>(
@@ -34,33 +33,11 @@ function App() {
   );
 
   useEffect(() => {
-    let inputValue: string;
-    if (response) {
-      console.debug(
-        "🚀 ~ file: App.tsx ~ line 45 ~ useEffect ~ response",
-        response
-      );
-      let inputValue = requestIpAddress;
-      if (response.config.params.email?.length > 0) {
-        inputValue = response.config.params.email;
-      } else if (response.config.params.domain?.length > 0) {
-        inputValue = response.config.params.domain;
-      } else if (response.config.params.ip?.length > 0) {
-        inputValue = response.config.params.ip;
-      }
-    }
-
     if (data) {
       console.debug("🚀 ~ file: App.tsx ~ line 63 ~ useEffect ~ data", data);
-      // setIpifyResponse(data);
-      if (!inputValue) {
-        inputValue = data.ip;
-      }
       setLatLng([data.location.lat, data.location.lng]);
     }
-
-    setRequestIpAddress(inputValue);
-  }, [data, requestIpAddress, response]);
+  }, [data, response]);
 
   return (
     <>
@@ -69,8 +46,6 @@ function App() {
           data={data}
           refetch={refetch}
           refetchParams={IPIFY_DEFAULT_PARAMS}
-          requestIpAddress={requestIpAddress}
-          setRequestIpAddress={setRequestIpAddress}
           loading={loading}
         />
       )}

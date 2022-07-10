@@ -67,16 +67,12 @@ const Header = (props: {
     options?: RefetchOptions
   ) => AxiosPromise<any>;
   refetchParams: IpifyConfigRequestParams;
-  requestIpAddress: string;
-  setRequestIpAddress: React.Dispatch<React.SetStateAction<string>>;
   loading: boolean;
 }) => {
   const refetch = props.refetch;
   const refetchParams = props.refetchParams;
   const localIpifyResponse = useRef<IpifyResponse>(props.data);
-  const requestIpAddress = props.requestIpAddress;
-  const [inputIpAddress, setInputIpAddress] =
-    useState<string>(requestIpAddress);
+  const [inputIpAddress, setInputIpAddress] = useState<string>("");
   const [invalidSearchInput, toggleInvalidSearchInput] = useState(false);
   const [invalidInputMsg, setInvalidInputMsg] = useState<string>("");
   const searchInputRef = useRef<HTMLInputElement>();
