@@ -64,14 +64,16 @@ function App() {
 
   return (
     <>
-      <Header
-        data={data}
-        refetch={refetch}
-        refetchParams={IPIFY_DEFAULT_PARAMS}
-        requestIpAddress={requestIpAddress}
-        setRequestIpAddress={setRequestIpAddress}
-        loading={loading}
-      />
+      {data && (
+        <Header
+          data={data}
+          refetch={refetch}
+          refetchParams={IPIFY_DEFAULT_PARAMS}
+          requestIpAddress={requestIpAddress}
+          setRequestIpAddress={setRequestIpAddress}
+          loading={loading}
+        />
+      )}
 
       {latLng.length === 2 && <MapComponent latLng={latLng} />}
     </>
