@@ -30,22 +30,27 @@ const EMAIL_REGEX = new RegExp(emailRegExPattern);
 type SearchKeyType = { [key in IpifySearchKey]?: string };
 
 const getSearchParam = (inputIpAddress: string) => {
+  // Just look-up the client's Geo IP location.
+  if (inputIpAddress === "") {
+    return {};
+  }
+
   let searchParam: SearchKeyType = {};
   if (IPV4_REGEX.test(inputIpAddress) || IPV6_REGEX.test(inputIpAddress)) {
     console.debug(
-      "🚀 ~ file: Header.tsx ~ line 88 ~ handleClick ~ inputIpAddress matches IP",
+      "🚀 ~ file: Header.tsx ~ line 88 ~ getSearchParam ~ inputIpAddress matches IP",
       inputIpAddress
     );
     searchParam = { ipAddress: inputIpAddress };
   } else if (EMAIL_REGEX.test(inputIpAddress)) {
     console.debug(
-      "🚀 ~ file: Header.tsx ~ line 94 ~ handleClick ~ inputIpAddress matches Email",
+      "🚀 ~ file: Header.tsx ~ line 94 ~ getSearchParam ~ inputIpAddress matches Email",
       inputIpAddress
     );
     searchParam = { email: inputIpAddress };
   } else if (HOSTNAME_REGEX.test(inputIpAddress)) {
     console.debug(
-      "🚀 ~ file: Header.tsx ~ line 100~ handleClick ~ inputIpAddress matches Hostname",
+      "🚀 ~ file: Header.tsx ~ line 100~ getSearchParam ~ inputIpAddress matches Hostname",
       inputIpAddress
     );
     searchParam = { domain: inputIpAddress };
@@ -161,15 +166,16 @@ const Header = (props: {
           />
           <button
             type="submit"
+            aria-label="Search"
             className="flex h-[58px] w-[58px] items-center justify-center rounded-r-2xl bg-black hover:bg-buttonHoverGray text-white"
             // onClick={handleSubmit}
           >
             <Arrow />
           </button>
         </form>
-        <div className="input-error relative flex w-[327px] h-12">
+        <div className="input-error relative flex w-[327px] max-h-fit">
           {invalidInputMsg && (
-            <div className="flex w-full max-w-sm mx-auto overflow-hidden bg-red-50 rounded-2xl shadow-2xl">
+            <div className="flex w-full h-12 max-w-sm mx-auto overflow-hidden bg-red-50 rounded-2xl shadow-2xl">
               <div className="py-2">
                 <p className="text-xs text-black text-center">
                   {invalidInputMsg}
@@ -190,7 +196,7 @@ const Header = (props: {
         </div>
       </div>
 
-      <div className="relative z-[1000] gap-y-6  shadow-2xl flex  flex-col text-center min-w-[327px] max-w-[1110px] justify-between bg-white rounded-2xl px-6 py-7  lg:flex-row  lg:gap-x-16 lg:py-9 lg:px-8 lg:text-left">
+      <div className="relative z-[1000] gap-y-6  shadow-2xl flex  flex-col text-center min-w-[327px] max-h-[376px]  justify-between bg-white rounded-2xl px-6 py-7  lg:flex-row  lg:gap-x-16 lg:py-9 lg:px-8 lg:text-left lg:max-w-[1110px] lg:max-h-[161px]">
         <div className="response-datum-container ip-address-resp">
           <div className="response-key">ip address</div>
           <div className="response-value">{localIpifyResponse.current?.ip}</div>
