@@ -13,14 +13,12 @@ import SearchForm from "./SearchForm";
 import SearchResults from "./SearchResults";
 
 const Header = (props: {
-  // data: IpifyResponse;
   axiosError: AxiosError<any, any> | null
   data: IpGeoResponse;
   refetch: (
     config?: AxiosRequestConfig<any>,
     options?: RefetchOptions
   ) => AxiosPromise<any>;
-  // refetchParams: IpifyConfigRequestParams;
   refetchParams: IpGeoConfigRequestParams;
   loading: boolean;
 }) => {
@@ -28,24 +26,11 @@ const Header = (props: {
   const data = props.data
   const refetch = props.refetch;
   const refetchParams = props.refetchParams;
-  // const localIpifyResponse = useRef<IpifyResponse>(props.data);
-  // const localIpifyResponse = useRef<IpGeoResponse>(props.data);
   const apiResponse = useRef<IpGeoResponse>(props.data);
   const [inputIpAddress, setInputIpAddress] = useState<string>("");
   const [invalidSearchInput, toggleInvalidSearchInput] = useState(false);
   const [invalidInputMsg, setInvalidInputMsg] = useState<string>("");
   const [loading, toggleLoading] = useState(props.loading);
-
-
-  // const setInputErrorMessage = (invalid: boolean, message: string) => {
-  //   toggleInvalidSearchInput(invalid);
-  //   setInvalidInputMsg(message);
-  //   searchInputRef.current.setCustomValidity(message);
-  // };
-
-  // const clearInputErrorMessage = () => {
-  //   setInputErrorMessage(false, "");
-  // };
 
   useEffect(() => {
     toggleLoading(props.loading);
@@ -54,96 +39,6 @@ const Header = (props: {
   useEffect(() => {
     apiResponse.current = props.data;
   }, [props.data]);
-
-  //   const {
-  //   register,
-  //   handleSubmit,
-  //   formState: { errors: formErrors, isValid, isSubmitted }
-  // } = useForm<FormValues>({
-  //   // mode: 'onSubmit',
-  //   // reValidateMode: 'onChange'
-  // })
-
-  // const onSubmit: SubmitHandler<FormValues> = async (
-  //   data: FormValues,
-  //   evt?: BaseSyntheticEvent<object, any, any> | undefined
-  // ) => {
-  //   evt?.preventDefault()
-
-  //   console.log(`🚀 ~ searchInputRef.current?.value`, searchInputRef.current?.value)
-
-  //   console.log(data)
-  //   console.log(evt)
-
-     
-  //     searchInputRef.current.setCustomValidity("");
-  //     console.debug("🚀 ~ file: Header.tsx ~ line 78 ~ event", evt);
-  //     console.debug(
-  //       "🚀 ~ file: Header.tsx ~ line 81 ~ handleClick ~ inputIpAddress",
-  //       inputIpAddress
-  //     );
-
-  //     let searchParam: SearchKeyType = getSearchParam(inputIpAddress);
-  //     console.debug(
-  //       "🚀 ~ file: Header.tsx ~ line 112 ~ handleClick ~ searchParam",
-  //       searchParam
-  //     );
-
-
-  //     if (searchParam.error) {
-  //       console.error(`🚀 ~ searchParam:`, searchParam)
-  //       setInputErrorMessage(true, `Search input contains an invalid value: ${searchParam.error}`)
-  //     } else {
-  //       // const res = getIpGeoAddressInfo(searchParam)
-  //       getIpGeoAddressInfo(searchParam)
-  //       .then(function(response) {
-  //         console.info(response);
-  //         apiResponse.current = response.data
-  //       })
-  //       .catch(function(err) {
-  //         console.error(err);
-  //         setInputErrorMessage(true, [invalidInputMsg, err].join(','));
-  //       });
-       
-
-  //     }
-  
-  // }
-
-  // const onError: SubmitErrorHandler<FormValues> = async (
-  //   errors: FieldErrors<FormValues>,
-  //   evt?: BaseSyntheticEvent<object, any, any> | undefined
-  // ) => {
-  //   evt?.preventDefault()
-
-  //   console.log(`🚀 ~ searchInputRef.current?.value`, searchInputRef.current?.value)
-
-  //   console.log(errors)
-  //   console.log(evt)
-  // }
-
-  // const isApiError = useCallback(() => {
-  //   const isAxiosError = axiosError?.isAxiosError ?? false
-
-  //   console.log(`🚀 ~ isApiError ~ ?`, isAxiosError)
-
-  //   return isAxiosError
-  // }, [axiosError])
-
-  // const isFormError = useCallback(() => {
-  //   const isFormError = isSubmitted && !isValid && Object.keys(formErrors).length > 0
-
-  //   console.log(`🚀 ~ isFormError ~ ?`, isFormError)
-
-  //   return isFormError
-  // }, [formErrors, isSubmitted, isValid])
-
-  // const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-  //   if (searchInputRef.current.validationMessage !== "") {
-  //     clearInputErrorMessage();
-  //   }
-  //   setInputIpAddress(event.target.value);
-  // };
 
   // const handleSubmit = useCallback(
   //   (event: FormEvent<HTMLFormElement>) => {
@@ -195,11 +90,11 @@ const Header = (props: {
   // );
 
   return (
-    <header className="relative flex flex-col gap-y-6 lg:gap-y-8 items-center justify-between h-[280px] w-full text-white pt-6 transition-all duration-200">
+    <header className="relative flex flex-col gap-y-[2.4rem] lg:gap-y-[4.8rem] items-center justify-between h-[28rem] w-full text-white pt-6 transition-all duration-200">
       <h1 className="relative text-heading lg:text-heading-lg font-medium">
         IP Address Tracker
       </h1>
-      <div className="relative flex items-center flex-col w-[327px] gap-6 lg:w-[555px]">
+      <div className="relative flex items-center flex-col w-[32.7rem] gap-y-[2.4rem] lg:gap-y-[4.8rem] lg:w-[55.5rem]">
         <SearchForm 
           axiosError={axiosError}
           data={data}

@@ -24,11 +24,13 @@ const SearchResults = (props: {
 
    
   return (
-      <div className="relative z-[1000] gap-y-6  shadow-2xl flex  flex-col text-center min-w-[327px] max-h-[376px]  justify-between bg-white rounded-2xl px-6 py-7  lg:flex-row  lg:gap-x-16 lg:py-9 lg:px-8 lg:text-left lg:max-w-[1110px] lg:max-h-[161px]">
+      <div className="relative z-[1000] shadow-2xl flex  flex-col text-center w-[32.7rem] h-[30rem]  justify-between bg-white rounded-2xl p-[2.4rem] lg:py-[3.7rem] lg:px-[3.2rem] lg:flex-row  lg:gap-x-[3.2rem] lg:text-left lg:min-w-[1110px] lg:min-h-[16rem]">
         <div className="response-datum-container ip-address-resp">
           <div className="response-key">ip address</div>
           <div className="response-value">{apiResponse.current?.ip}</div>
         </div>
+
+        <div className="hor-line" />
 
         <div className="response-datum-container location-resp">
           <div className="response-key">location</div>
@@ -39,12 +41,16 @@ const SearchResults = (props: {
           </div>
         </div>
 
+        <div className="hor-line"></div>
+
         <div className="response-datum-container timezone-resp">
           <div className="response-key">time zone</div>
           <div className="response-value">
-            UTC {apiResponse.current?.time_zone.offset}
+            UTC {apiResponse.current?.time_zone.offset}:00
           </div>
         </div>
+
+        <div className="hor-line" />
 
         <div className="response-datum-container isp-resp">
           <div className="response-key">isp</div>

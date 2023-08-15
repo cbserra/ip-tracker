@@ -125,42 +125,38 @@ const SearchForm = (props: {
   ) => {
     evt?.preventDefault()
 
-    console.log(`🚀 ~ searchInputRef.current?.value`, searchInputRef.current?.value)
-
-    console.log(data)
-    console.log(evt)
-
+    // console.log(`🚀 ~ searchInputRef.current?.value`, searchInputRef.current?.value)
+    // console.log(data)
+    // console.log(evt)
     
     searchInputRef.current.setCustomValidity("");
-    console.debug("🚀 ~ file: Header.tsx ~ line 78 ~ event", evt);
-    console.debug(
-      "🚀 ~ file: Header.tsx ~ line 81 ~ handleClick ~ inputIpAddress",
-      inputIpAddress
-    );
+    // console.debug("🚀 ~ file: Header.tsx ~ line 78 ~ event", evt);
+    // console.debug(
+    //   "🚀 ~ file: Header.tsx ~ line 81 ~ handleClick ~ inputIpAddress",
+    //   inputIpAddress
+    // );
 
     let searchParam: SearchKeyType = getSearchParam(inputIpAddress);
-    console.debug(
-      "🚀 ~ file: Header.tsx ~ line 112 ~ handleClick ~ searchParam",
-      searchParam
-    );
+    // console.debug(
+    //   "🚀 ~ file: Header.tsx ~ line 112 ~ handleClick ~ searchParam",
+    //   searchParam
+    // );
 
 
     if (searchParam.error) {
       console.error(`🚀 ~ searchParam:`, searchParam)
       setInputErrorMessage(true, `Search input contains an invalid value: ${searchParam.error}`)
     } else {
-      // const res = getIpGeoAddressInfo(searchParam)
       getIpGeoAddressInfo(searchParam)
-      .then(function(response) {
-        console.info(response);
-        apiResponse.current = response.data
-      })
-      .catch(function(err) {
-        console.error(err);
-        setInputErrorMessage(true, [invalidInputMsg, err].join(','));
-      });
+        .then(function(response) {
+          console.info(response);
+          apiResponse.current = response.data
+        })
+        .catch(function(err) {
+          console.error(err);
+          setInputErrorMessage(true, [invalidInputMsg, err].join(','));
+        });
     }
-  
   }
 
   const onError: SubmitErrorHandler<FormValues> = async (
@@ -169,10 +165,9 @@ const SearchForm = (props: {
   ) => {
     evt?.preventDefault()
 
-    console.log(`🚀 ~ searchInputRef.current?.value`, searchInputRef.current?.value)
-
-    console.log(errors)
-    console.log(evt)
+    // console.log(`🚀 ~ searchInputRef.current?.value`, searchInputRef.current?.value)
+    // console.log(errors)
+    // console.log(evt)
   }
 
   const isApiError = useCallback(() => {
@@ -199,62 +194,61 @@ const SearchForm = (props: {
   };
 
   return (
-      <>
-        <form
-          className="relative flex w-full shadow-2xl "
-          id="search-bar"
-          noValidate={true}
-          onSubmit={handleSubmit(onSubmit, onError)}
+    <>
+      <form
+        className="relative flex w-full shadow-2xl "
+        id="search-bar"
+        noValidate={true}
+        onSubmit={handleSubmit(onSubmit, onError)}
+      >
+        <input
+          {...register('ipAddress', { required: 'IP or Domain Address is Required' })}
+          type="text"
+          id="ip-address"
+          className={cx(
+            "appearance-none text-input ip-address h-[58px] rounded-l-2xl w-full text-black pl-6 focus:outline-none focus-visible:outline-none",
+            invalidSearchInput
+              ? "border-solid border-[1px] border-red-600 text-red-600"
+              : ""
+          )}
+          onChange={handleInputChange}
+          value={inputIpAddress}
+          placeholder="Search for any IP address or domain"
+          ref={searchInputRef}
+        />
+        <button
+          type="submit"
+          aria-label="Search"
+          className="flex h-[58px] w-[58px] items-center justify-center rounded-r-2xl bg-black hover:bg-buttonHoverGray text-white"
         >
-          <input
-            {...register('ipAddress', { required: 'IP or Domain Address is Required' })}
-            type="text"
-            id="ip-address"
-            className={cx(
-              "appearance-none text-input ip-address h-[58px] rounded-l-2xl w-full text-black pl-6 focus:outline-none focus-visible:outline-none",
-              invalidSearchInput
-                ? "border-solid border-[1px] border-red-600 text-red-600"
-                : ""
-            )}
-            onChange={handleInputChange}
-            value={inputIpAddress}
-            placeholder="Search for any IP address or domain"
-            ref={searchInputRef}
-          />
-          <button
-            type="submit"
-            aria-label="Search"
-            className="flex h-[58px] w-[58px] items-center justify-center rounded-r-2xl bg-black hover:bg-buttonHoverGray text-white"
-            // onClick={handleSubmit}
-          >
-            <Arrow />
-          </button>
-        </form>
-        <div className="input-error relative flex w-[327px] max-h-fit">
-          {invalidInputMsg && (
-            <div className="flex w-full h-12 max-w-sm mx-auto overflow-hidden bg-red-50 rounded-2xl shadow-2xl">
-              <div className="py-2 w-fit">
-                <p className="text-xs text-black text-center">
-                  {invalidInputMsg}
-                  {isFormError() && formErrors.ipAddress?.message?.length && (
-                    <span className="inline-block">{formErrors.ipAddress.message}</span>
-                  )}
-                  {isApiError() && <span className="inline-block">No Results</span>}
-                </p>
-              </div>
-              <div className="flex items-center justify-between w-[58px] rounded-r-2xl bg-red-500 border-[1px] border-red-700">
-                <svg
-                  className="w-6 h-6 text-white fill-current"
-                  viewBox="0 0 40 40"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z" />
-                </svg>
-              </div>
-            </div>)}
-          </div>
-        </>
-        );
+          <Arrow />
+        </button>
+      </form>
+      <div className="input-error relative flex w-[327px] max-h-fit">
+        {invalidInputMsg && (
+          <div className="flex w-full h-12 max-w-sm mx-auto overflow-hidden bg-red-50 rounded-2xl shadow-2xl">
+            <div className="py-2 w-fit">
+              <p className="text-xs text-black text-center">
+                {invalidInputMsg}
+                {isFormError() && formErrors.ipAddress?.message?.length && (
+                  <span className="inline-block">{formErrors.ipAddress.message}</span>
+                )}
+                {isApiError() && <span className="inline-block">No Results</span>}
+              </p>
+            </div>
+            <div className="flex items-center justify-between w-[58px] rounded-r-2xl bg-red-500 border-[1px] border-red-700">
+              <svg
+                className="w-6 h-6 text-white fill-current"
+                viewBox="0 0 40 40"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z" />
+              </svg>
+            </div>
+          </div>)}
+        </div>
+      </>
+      );
 }
 
 export default SearchForm;

@@ -5,6 +5,10 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    @apply text-base;
+  }
+  
   html,
   body {
     @apply h-full w-full m-0 p-0 font-sans antialiased bg-white text-black;
@@ -25,24 +29,36 @@
 }
 
 @layer utilities {
+   .hor-line {
+      @apply hidden lg:inline w-[.1rem] bg-black bg-opacity-[.15] h-full;
+    /* width: 1px;
+    background-color: rgb(0 0 0 / .15);
+    height: 100%; */
+    /* padding-left: 2rem; */
+  }
+
+  .response-datum-container {
+    @apply gap-y-[.7rem] lg:gap-y-[1.3rem] w-full lg:w-[20vw];
+  }
+
   .response-key {
-    @apply font-sans font-bold text-key mix-blend-normal uppercase opacity-50 text-veryDarkGray lg:text-key-lg;
+    @apply text-center font-sans font-bold text-key mix-blend-normal uppercase opacity-50 text-veryDarkGray lg:text-left lg:text-key-lg;
     @apply mb-2 lg:mb-3;
-    text-align: inherit;
+    /* text-align: inherit; */
   }
 
   .response-value {
     @apply font-sans font-medium text-value text-veryDarkGray lg:text-value-lg;
-    text-align: inherit;
+    /* text-align: inherit; */
   }
 
-  .header-info-border {
+  /* .header-info-border {
     @apply border-l-[1px] border-black border-opacity-[.15] pl-8;
-  }
+  } */
 
-  .timezone-resp,
+  /* .timezone-resp,
   .isp-resp,
   .location-resp {
     @apply lg:header-info-border;
-  }
+  } */
 }
