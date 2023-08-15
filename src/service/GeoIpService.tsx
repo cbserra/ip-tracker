@@ -9,11 +9,12 @@ import { IpGeoResponse } from "../types/IpGeoType";
 // const cache = new LRU({ max: 10 });
 
 export const getIpGeoAddressInfo = async (ipOrDnsAddress?: SearchKeyType): Promise<AxiosResponse<IpGeoResponse, any>> => {
-const key = Object.keys(ipOrDnsAddress)[0];
-const ip = ipOrDnsAddress[key];
+  console.log(`🚀 ~ getIpGeoAddressInfo ~ ipOrDnsAddress:`, ipOrDnsAddress)
+  const key = Object.keys(ipOrDnsAddress)[0];
+  const ip = ipOrDnsAddress[key];
 
   let configParams = { ...IP_GEO_CONFIG_REQUEST_PARAMS };
-  if (ipOrDnsAddress) {
+  if (ip) {
     configParams = {
       ...configParams,
       'ip': ip,
@@ -101,7 +102,7 @@ export const getIpifyUseAxios = (): UseAxios => {
 export const getIpGeoUseAxios = (): UseAxios => {
   const axios = Axios.create({
     baseURL: IP_GEO_ENDPOINT,
-    params: IPIFY_DEFAULT_PARAMS,
+    params: IP_GEO_CONFIG_REQUEST_PARAMS,
   });
 
   const cache = new LRU({ max: 10 });
