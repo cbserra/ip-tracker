@@ -14,6 +14,7 @@ import {
   IpifyConfigRequestParams,
   IpifyResponse,
   IpifySearchKey,
+  SearchKeyType,
 } from "../../types/Types";
 import {
   ipV6RegExPattern,
@@ -27,9 +28,7 @@ const IPV6_REGEX = new RegExp(ipV6RegExPattern);
 const HOSTNAME_REGEX = new RegExp(hostnameRegExPattern);
 const EMAIL_REGEX = new RegExp(emailRegExPattern);
 
-type SearchKeyType = { [key in IpifySearchKey]?: string };
-
-const getSearchParam = (inputIpAddress: string) => {
+const getSearchParam = (inputIpAddress: string): SearchKeyType => {
   // Just look-up the client's Geo IP location.
   if (inputIpAddress === "") {
     return {};
@@ -55,7 +54,9 @@ const getSearchParam = (inputIpAddress: string) => {
     );
     searchParam = { domain: inputIpAddress };
   } else {
-    console.error("inputIpAddress contains an invalid value:", inputIpAddress);
+    const testError = `inputIpAddress contains an invalid value: ${inputIpAddress}`
+    searchParam = { error: inputIpAddress}
+    console.error(testError);
   }
   return searchParam;
 };
@@ -114,16 +115,18 @@ const Header = (props: {
       );
 
       let searchParam: SearchKeyType = getSearchParam(inputIpAddress);
-
       console.debug(
         "🚀 ~ file: Header.tsx ~ line 112 ~ handleClick ~ searchParam",
         searchParam
       );
 
-      refetch({
-        params: { ...refetchParams, ...searchParam },
-      }).catch((error) => {
-        setInputErrorMessage(
+      if (searchParam.error) {
+        setInputErrorMessage(true, `Search input contains an invalid value: ${searchParam.error}`)
+      } else {
+        refetch({
+          params: { ...refetchParams, ...searchParam },
+        }).catch((error) => {
+          setInputErrorMessage(
           true,
           `${error.message}: ${error.response.data.messages}`
         );
@@ -131,7 +134,8 @@ const Header = (props: {
           "🚀 ~ file: Header.tsx ~ line 118 ~ handleClick ~ error",
           error
         );
-      });
+        });
+      }
     },
     [refetch, refetchParams, inputIpAddress]
   );
@@ -172,13 +176,13 @@ const Header = (props: {
         <div className="input-error relative flex w-[327px] max-h-fit">
           {invalidInputMsg && (
             <div className="flex w-full h-12 max-w-sm mx-auto overflow-hidden bg-red-50 rounded-2xl shadow-2xl">
-              <div className="py-2">
+              <div className="py-2 w-fit">
                 <p className="text-xs text-black text-center">
                   {invalidInputMsg}
                 </p>
               </div>
 
-              <div className="flex items-center justify-center w-[58px] rounded-r-2xl bg-red-500 border-[1px] border-red-700">
+              <div className="flex items-center justify-between w-[58px] rounded-r-2xl bg-red-500 border-[1px] border-red-700">
                 <svg
                   className="w-6 h-6 text-white fill-current"
                   viewBox="0 0 40 40"

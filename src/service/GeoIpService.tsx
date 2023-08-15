@@ -1,20 +1,14 @@
-import axios from "axios";
-import { GeoIpResponse, IpGeoConfigRequestParams } from "../types/Types";
+import axios, { AxiosResponse } from "axios";
+import Axios from "axios";
+import { IPIFY_DEFAULT_PARAMS, IPIFY_END_POINT, IP_API_API_KEY, IP_API_BASE_URL, IP_API_CONFIG_REQUEST_PARAMS, IP_API_RESP_FIELDS, IP_GEO_CONFIG_REQUEST_PARAMS, IP_GEO_ENDPOINT, IpApiResponse, SearchKeyType } from "../types/Types";
 import { setupCache } from "axios-cache-adapter";
+import { UseAxios, configure, makeUseAxios } from "axios-hooks";
+import LRU from "lru-cache";
+import { IpGeoResponse } from "../types/IpGeoType";
 
-const IP_GEO_ENDPOINT = "https://api.ipgeolocation.io/ipgeo";
-const IP_GEO_API_KEY = "449eae68ae1e4463844bfe33e3d1f71f";
+// const cache = new LRU({ max: 10 });
 
-const IP_API_BASE_URL = "http://api.ipapi.com/api";
-const IP_API_API_KEY = "e0898d0cf1f8c12317f24f9f4b9ae12a";
-const IP_API_RESP_FIELDS = ["main", "time_zone", "connection"];
-
-const IP_GEO_CONFIG_REQUEST_PARAMS: IpGeoConfigRequestParams = {
-  apiKey: IP_GEO_API_KEY,
-  fields: "geo,time_zone,isp",
-};
-
-export const getIpAddressInfo = async (ipOrDnsAddress?: string) => {
+export const getIpGeoAddressInfo = async (ipOrDnsAddress?: string): Promise<AxiosResponse<IpGeoResponse, any>> => {
   let configParams = { ...IP_GEO_CONFIG_REQUEST_PARAMS };
   if (ipOrDnsAddress) {
     configParams = {
@@ -22,7 +16,7 @@ export const getIpAddressInfo = async (ipOrDnsAddress?: string) => {
       ip: ipOrDnsAddress,
     };
   }
-  const response = await axios.get<GeoIpResponse>(IP_GEO_ENDPOINT, {
+  const response = await axios.get<IpGeoResponse>(IP_GEO_ENDPOINT, {
     params: configParams,
   });
 
@@ -37,61 +31,35 @@ export const getIpAddressInfo = async (ipOrDnsAddress?: string) => {
   // setInputIpAddress(ipifyResponse?.ip || '')
 };
 
-// const http = axios.create({
-//   baseURL: IP_API_BASE_URL,
-//   withCredentials: false,
-// })
-
-// const httpProxy = wrapper(http, {
-//   maxCacheSize: 15
-// })
-// httpProxy.__addFilter(/check/)
-
-// Create `axios-cache-adapter` instance
-const cache = setupCache({
-  maxAge: 15 * 60 * 1000,
-});
-
-// Create `axios` instance passing the newly created `cache.adapter`
-const api = axios.create({
-  adapter: cache.adapter,
-});
-
-export const testCache = async () => {
-  // Send a GET request to some REST api
-  api({
-    url: IP_API_BASE_URL + "/check",
+export const getIpApiResponse = async (input?: string): Promise<AxiosResponse<IpApiResponse, any>> => {
+  const response = await axios.get<IpApiResponse>(IP_API_BASE_URL, { 
+    url: `/${input}` || '/check',
+    method: 'GET',
     params: {
-      access_key: IP_API_API_KEY,
-      //  'fields': IP_API_RESP_FIELDS.join(',')
-    },
-    method: "get",
-  }).then(async (response) => {
-    // Do something fantastic with response.data \o/
-    console.log("Request response:", response);
+      'access_key': IP_API_API_KEY,
+      'fields': IP_API_RESP_FIELDS.join(',')
+    }
+  })
 
-    // Interacting with the store, see `localForage` API.
-    const store = await cache.store;
+  return response
 
-    console.log("Cache store:", JSON.stringify(store));
-  });
-};
+}
 
-// export const getIpApiResponse = async (): Promise<AxiosResponse<IpApiResponse, any>> => {
-//   let resp = await http({
-//     url: '/check/',
-//     method: 'GET',
-//     params: {
-//       'access_key': IP_API_API_KEY,
-//       // 'fields': IP_API_RESP_FIELDS.join(',')
-//     }
-//   })
+export const getIpifyResponse = async (input?: SearchKeyType): Promise<AxiosResponse<IpApiResponse, any>> => {
+  const requestKey = Object.keys(input)[0]
 
-//   console.log("🚀 ~ file: GeoIpService.tsx ~ line 30 ~ getIpApiResponse ~ httpProxy", httpProxy.__cacher.cacheMap)
+    const response = await axios.get<IpApiResponse>(IPIFY_END_POINT, { 
+    method: 'GET',
+    params: {
+      ...IPIFY_DEFAULT_PARAMS,
+      [requestKey]: input[requestKey]
+      // 'access_key': IP_API_API_KEY,
+      // 'fields': IP_API_RESP_FIELDS.join(',')
+    }
+  })
 
-//   return resp
-
-// }
+  return response
+}
 
 // const IPIFY_ENDPOINT = 'https://geo.ipify.org/api/v2/country,city'
 // const IPIFY_API_KEY = 'at_b5Mpsni3uchxBwpMFtzrCgM0dclIk'
@@ -114,3 +82,39 @@ export const testCache = async () => {
 //           }
 //       }
 // }
+
+export const getIpifyUseAxios = (): UseAxios => {
+  const axios = Axios.create({
+    baseURL: IPIFY_END_POINT,
+    params: IPIFY_DEFAULT_PARAMS,
+  });
+
+  const cache = new LRU({ max: 10 });
+  configure({ axios, cache });
+
+  return makeUseAxios({ axios, cache });
+}
+
+export const getIpGeoUseAxios = (): UseAxios => {
+  const axios = Axios.create({
+    baseURL: IP_GEO_ENDPOINT,
+    params: IPIFY_DEFAULT_PARAMS,
+  });
+
+  const cache = new LRU({ max: 10 });
+  configure({ axios, cache });
+
+  return makeUseAxios({ axios, cache });
+}
+
+export const getIpApiUseAxios = (): UseAxios => {
+  const axios = Axios.create({
+    baseURL: IP_API_BASE_URL,
+    params: IP_API_CONFIG_REQUEST_PARAMS,
+  });
+
+  const cache = new LRU({ max: 10 });
+  configure({ axios, cache });
+
+  return makeUseAxios({ axios, cache });
+}

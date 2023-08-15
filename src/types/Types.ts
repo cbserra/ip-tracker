@@ -26,6 +26,28 @@ import { IncomingHttpStatusHeader } from "http2";
 //   request: {};
 // }
 
+export const IP_GEO_ENDPOINT = "https://api.ipgeolocation.io/ipgeo";
+export const IP_GEO_API_KEY = "449eae68ae1e4463844bfe33e3d1f71f";
+export const IP_GEO_CONFIG_REQUEST_PARAMS: IpGeoConfigRequestParams = {
+  apiKey: IP_GEO_API_KEY,
+  fields: "geo,time_zone,isp",
+};
+
+export const IP_API_BASE_URL = "http://api.ipapi.com/api";
+export const IP_API_API_KEY = "e0898d0cf1f8c12317f24f9f4b9ae12a";
+export const IP_API_RESP_FIELDS = ["main", "time_zone", "connection"];
+export const IP_API_CONFIG_REQUEST_PARAMS = {
+  access_key: IP_API_API_KEY,
+}
+
+export const IPIFY_API_KEY = "at_61f2wtZVyZAEmqSkhh60ObEIV2wlj";
+export const IPIFY_END_POINT = "https://geo.ipify.org/api/v2/country,city";
+export const IPIFY_DEFAULT_PARAMS: IpifyConfigRequestParams = {
+  apiKey: IPIFY_API_KEY,
+};
+
+export type SearchKeyType = { [key in IpifySearchKey]?: string };
+
 export type IpifyResponse = {
   ip: string;
   location: {
@@ -171,7 +193,7 @@ export type IpifyConfigRequestParams = {
   email?: string;
 };
 
-export type IpifySearchKey = "ipAddress" | "domain" | "email";
+export type IpifySearchKey = "ipAddress" | "domain" | "email" | "error";
 
 export const ipv4RegExPattern =
   "^[0-2]{,1}[0-9]{,2}.[0-2]{,1}[0-9]{,2}.[0-2]{,1}[0-9]{,2}.[0-2]{,1}[0-9]{,2}$";
