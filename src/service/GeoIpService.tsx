@@ -8,16 +8,19 @@ import { IpGeoResponse } from "../types/IpGeoType";
 
 // const cache = new LRU({ max: 10 });
 
-export const getIpGeoAddressInfo = async (ipOrDnsAddress?: string): Promise<AxiosResponse<IpGeoResponse, any>> => {
+export const getIpGeoAddressInfo = async (ipOrDnsAddress?: SearchKeyType): Promise<AxiosResponse<IpGeoResponse, any>> => {
+const key = Object.keys(ipOrDnsAddress)[0];
+const ip = ipOrDnsAddress[key];
+
   let configParams = { ...IP_GEO_CONFIG_REQUEST_PARAMS };
   if (ipOrDnsAddress) {
     configParams = {
       ...configParams,
-      ip: ipOrDnsAddress,
+      'ip': ip,
     };
   }
   const response = await axios.get<IpGeoResponse>(IP_GEO_ENDPOINT, {
-    params: configParams,
+    'params': configParams,
   });
 
   console.table(response);

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Header from "./components/header/Header";
 import MapComponent from "./components/map/Map";
 import { IPIFY_DEFAULT_PARAMS, IPIFY_END_POINT, IpifyConfigRequestParams, IpifyResponse } from "./types/Types";
+// import { getIpGeoLocationApiInstance } from "./service/IpGeoLocationApi";
 // import LRU from "lru-cache";
 
 const apiBaseUrl = IPIFY_END_POINT
@@ -22,6 +23,10 @@ function App() {
       setLatLng([data.location.lat, data.location.lng]);
     }
   }, [data, response]);
+
+  // useEffect(() => {
+  //   getIpGeoLocationApiInstance({ipAddress: '1.1.1.1'})
+  // }, [])
 
   return (
     <>

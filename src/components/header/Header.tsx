@@ -22,6 +22,7 @@ import {
   hostnameRegExPattern,
 } from "../../types/Types";
 import cx from "classnames";
+import { getIpGeoAddressInfo } from "../../service/GeoIpService";
 
 const IPV4_REGEX = new RegExp(ipv4RegExPattern);
 const IPV6_REGEX = new RegExp(ipV6RegExPattern);
@@ -123,21 +124,24 @@ const Header = (props: {
       if (searchParam.error) {
         setInputErrorMessage(true, `Search input contains an invalid value: ${searchParam.error}`)
       } else {
-        refetch({
-          params: { ...refetchParams, ...searchParam },
-        }).catch((error) => {
-          setInputErrorMessage(
-          true,
-          `${error.message}: ${error.response.data.messages}`
-        );
-        console.error(
-          "🚀 ~ file: Header.tsx ~ line 118 ~ handleClick ~ error",
-          error
-        );
-        });
+        const res = getIpGeoAddressInfo(searchParam);
+        console.log(`🚀 ~ res:`, res)
+        
+        // refetch({
+        //   params: { ...refetchParams, ...searchParam },
+        // }).catch((error) => {
+        //   setInputErrorMessage(
+        //   true,
+        //   `${error.message}: ${error.response.data.messages}`
+        // );
+        // console.error(
+        //   "🚀 ~ file: Header.tsx ~ line 118 ~ handleClick ~ error",
+        //   error
+        // );
+        // });
       }
     },
-    [refetch, refetchParams, inputIpAddress]
+    [inputIpAddress]
   );
 
   return (

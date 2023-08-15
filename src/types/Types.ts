@@ -27,7 +27,7 @@ import { IncomingHttpStatusHeader } from "http2";
 // }
 
 export const IP_GEO_ENDPOINT = "https://api.ipgeolocation.io/ipgeo";
-export const IP_GEO_API_KEY = "449eae68ae1e4463844bfe33e3d1f71f";
+export const IP_GEO_API_KEY = "95dccca1a9844e8db47163fe8b88c554";
 export const IP_GEO_CONFIG_REQUEST_PARAMS: IpGeoConfigRequestParams = {
   apiKey: IP_GEO_API_KEY,
   fields: "geo,time_zone,isp",
