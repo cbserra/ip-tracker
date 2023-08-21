@@ -1,4 +1,4 @@
-import { IpifySearchKey } from "./IpifyType"
+import { IpifySearchKey } from './IpifyType'
 
 export type SearchKeyType = { [key in IpifySearchKey]?: string }
 
@@ -6,13 +6,13 @@ export type FormValues = {
   inputSearchValue?: string
 }
 
-export const ipv4RegExPattern =
+const ipv4RegExPattern =
   '^[0-2]{,1}[0-9]{,2}.[0-2]{,1}[0-9]{,2}.[0-2]{,1}[0-9]{,2}.[0-2]{,1}[0-9]{,2}$'
-export const ipV6RegExPattern =
+const ipV6RegExPattern =
   '^[a-f0-9]{0,4}:[a-f0-9]{0,4}:[a-f0-9]{0,4}:[a-f0-9]{0,4}:[a-f0-9]{0,4}:[a-f0-9]{0,4}:[a-f0-9]{0,4}:[a-f0-9]{0,4}$'
-export const hostnameRegExPattern =
+const hostnameRegExPattern =
   '^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]).)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9])$'
-export const emailRegExPattern =
+const emailRegExPattern =
   "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
 
 const IPV4_REGEX = new RegExp(ipv4RegExPattern)

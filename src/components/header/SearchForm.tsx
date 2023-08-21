@@ -2,64 +2,20 @@ import { AxiosError, AxiosPromise, AxiosRequestConfig } from 'axios'
 import { RefetchOptions } from 'axios-hooks'
 import { BaseSyntheticEvent, ChangeEvent, useCallback, useRef, useState } from 'react'
 import { ReactComponent as Arrow } from '../../images/icon-arrow.svg'
-import { getSearchParam, emailRegExPattern, FormValues, SearchKeyType } from '../../types/FormValidationTypes'
+import { getSearchParam, FormValues, SearchKeyType } from '../../types/FormValidationTypes'
 import cx from 'classnames'
 import { useForm, SubmitHandler, SubmitErrorHandler } from 'react-hook-form'
 import { FieldErrors } from 'react-hook-form/dist/types/errors'
 import { IpifyResponse } from '../../types/IpifyType'
 
-// type FormValues = {
-//   inputSearchValue?: string
-// }
-
-// const IPV4_REGEX = new RegExp(ipv4RegExPattern)
-// const IPV6_REGEX = new RegExp(ipV6RegExPattern)
-// const HOSTNAME_REGEX = new RegExp(hostnameRegExPattern)
-// const EMAIL_REGEX = new RegExp(emailRegExPattern)
-
-// const getSearchParam = (inputSearchValue: string): SearchKeyType => {
-//   // Just look-up the client's Geo IP location.
-//   if (inputSearchValue === '') {
-//     return {}
-//   }
-
-//   let searchParam: SearchKeyType = {}
-//   if (IPV4_REGEX.test(inputSearchValue) || IPV6_REGEX.test(inputSearchValue)) {
-//     console.debug(
-//       '🚀 ~ file: Header.tsx ~ line 88 ~ getSearchParam ~ inputSearchValue matches IP',
-//       inputSearchValue
-//     )
-//     searchParam = { ipAddress: inputSearchValue }
-//   } else if (EMAIL_REGEX.test(inputSearchValue)) {
-//     console.debug(
-//       '🚀 ~ file: Header.tsx ~ line 94 ~ getSearchParam ~ inputSearchValue matches Email',
-//       inputSearchValue
-//     )
-//     searchParam = { email: inputSearchValue }
-//   } else if (HOSTNAME_REGEX.test(inputSearchValue)) {
-//     console.debug(
-//       '🚀 ~ file: Header.tsx ~ line 100~ getSearchParam ~ inputSearchValue matches Hostname',
-//       inputSearchValue
-//     )
-//     searchParam = { domain: inputSearchValue }
-//   } else {
-//     const testError = `inputSearchValue contains an invalid value: ${inputSearchValue}`
-//     searchParam = { error: inputSearchValue }
-//     console.error(testError)
-//   }
-//   return searchParam
-// }
-
 const SearchForm = (props: {
   axiosError: AxiosError<any, any> | null
   data: IpifyResponse
   refetch: (config?: AxiosRequestConfig<any>, options?: RefetchOptions) => AxiosPromise<any>
-  // refetchParams: IpifyRequestConfigParams
   loading: boolean
   inputSearchValue: SearchKeyType
   setInputSearchValue: React.Dispatch<React.SetStateAction<SearchKeyType>>
 }) => {
-  // const apiParams = IPIFY_DEFAULT_PARAMS
   const axiosError = props.axiosError
   const refetch = props.refetch
   const [inputSearchValue, setInputSearchValue] = [
@@ -69,7 +25,6 @@ const SearchForm = (props: {
   const [invalidSearchInput, toggleInvalidSearchInput] = useState(false)
   const [invalidInputMsg, setInvalidInputMsg] = useState<string>('')
   const searchInputRef = useRef<HTMLInputElement>()
-  const [loading, toggleLoading] = useState(props.loading)
 
   const setInputErrorMessage = (invalid: boolean, message: string) => {
     toggleInvalidSearchInput(invalid)
@@ -109,7 +64,7 @@ const SearchForm = (props: {
     } else {
       refetch({
         params: searchObj,
-      }).catch(err => {
+      }).catch((err) => {
         console.error(`🚀 ~ err:`, err)
         setInputErrorMessage(true, `Error caught during refetch: ${JSON.stringify(err.message)}`)
       })
@@ -129,7 +84,6 @@ const SearchForm = (props: {
     console.log(`🚀 ~ isValid:`, isValid)
   }
 
-  const isApiError = useCallback(() => axiosError?.isAxiosError ?? false, [axiosError])
 
   const isFormError = useCallback(
     () => isSubmitted && !isValid && Object.keys(formErrors).length > 0,
@@ -156,12 +110,12 @@ const SearchForm = (props: {
       >
         <div
           className={cx(
-            'ip-address relative flex justify-between h-[58px] w-full appearance-none rounded-2xl text-input',
+            'ip-address h-[58px] relative flex w-full appearance-none justify-between rounded-2xl text-input',
             'bg-white pl-6 text-black',
             invalidSearchInput ? 'border-[1px] border-solid border-red-600 text-red-600' : ''
           )}
         >
-          <div className="flex flex-col w-full h-full justify-end items-align">
+          <div className="items-align flex h-full w-full flex-col justify-end">
             <input
               {...register('inputSearchValue')}
               type="text"
@@ -175,9 +129,9 @@ const SearchForm = (props: {
               placeholder="Search for any IP address or domain"
               ref={searchInputRef}
             />
-            <div className="input-error relative flex w-full h-1/3">
+            <div className="input-error relative flex h-1/3 w-full">
               {invalidInputMsg && (
-                <p className="flex items-center justify-center text-right text-error lg:text-error-lg text-red-500">
+                <p className="flex items-center justify-center text-right text-error text-red-500 lg:text-error-lg">
                   <span className="inline-block">{invalidInputMsg}</span>
                   {isFormError() && formErrors.inputSearchValue?.message?.length && (
                     <span className="inline-block">{formErrors.inputSearchValue.message}</span>
@@ -190,7 +144,7 @@ const SearchForm = (props: {
           <button
             type="submit"
             aria-label="Search"
-            className="flex h-[58px] w-[58px] items-center justify-center rounded-r-2xl bg-black text-white hover:bg-buttonHoverGray"
+            className="h-[58px] w-[58px] flex items-center justify-center rounded-r-2xl bg-black text-white hover:bg-buttonHoverGray"
           >
             <Arrow />
           </button>
@@ -201,4 +155,3 @@ const SearchForm = (props: {
 }
 
 export default SearchForm
-

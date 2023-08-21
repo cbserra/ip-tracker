@@ -4,14 +4,13 @@ import { useState } from 'react'
 import SearchForm from './SearchForm'
 import SearchResults from './SearchResults'
 import cx from 'classnames'
-import { IpifyRequestConfigParams, IpifyResponse } from '../../types/IpifyType'
+import { IpifyResponse } from '../../types/IpifyType'
 import { SearchKeyType } from '../../types/FormValidationTypes'
 
 const Header = (props: {
   axiosError: AxiosError<any, any> | null
   data: IpifyResponse
   refetch: (config?: AxiosRequestConfig<any>, options?: RefetchOptions) => AxiosPromise<any>
-  // refetchParams: IpifyRequestConfigParams
   loading: boolean
   inputSearchValue: SearchKeyType
   setInputSearchValue: React.Dispatch<React.SetStateAction<SearchKeyType>>
@@ -24,14 +23,12 @@ const Header = (props: {
     props.inputSearchValue,
     props.setInputSearchValue,
   ]
-  const [invalidSearchInput, toggleInvalidSearchInput] = useState(false)
-  const [invalidInputMsg, setInvalidInputMsg] = useState<string>('')
-  const [loading, toggleLoading] = useState(props.loading)
+  const [loading] = useState(props.loading)
 
   return (
     <header
       className={cx(
-        'relative flex h-[28rem] w-full flex-col items-center justify-between pt-6',
+        'h-[28rem] relative flex w-full flex-col items-center justify-between pt-6',
         'text-white transition-all duration-200',
         'gap-y-[2.4rem] lg:gap-y-[4.8rem]'
       )}
@@ -39,7 +36,7 @@ const Header = (props: {
       <h1 className="relative text-heading font-medium lg:text-heading-lg">IP Address Tracker</h1>
       <div
         className={cx(
-          'relative flex w-[32.7rem] flex-col items-center  lg:w-[55.5rem]',
+          'w-[32.7rem] lg:w-[55.5rem] relative flex flex-col  items-center',
           'gap-y-[2.4rem]'
         )}
       >
@@ -47,14 +44,13 @@ const Header = (props: {
           axiosError={axiosError}
           data={data}
           refetch={refetch}
-          // refetchParams={refetchParams}
           loading={loading}
           inputSearchValue={inputSearchValue}
           setInputSearchValue={setInputSearchValue}
         />
       </div>
 
-      {!loading && data && <SearchResults data={data} loading={loading} />}
+      {!loading && data && <SearchResults data={data} />}
     </header>
   )
 }

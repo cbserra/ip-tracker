@@ -1,4 +1,4 @@
-import { SearchKeyType } from "./FormValidationTypes"
+import { SearchKeyType } from './FormValidationTypes'
 
 // In case I need to use a different API which doesn't format the DST offset.
 export const determineDstOffset = (offset: number, isDst: boolean, dstSavings?: number) => {
