@@ -2,54 +2,53 @@ import { AxiosError, AxiosPromise, AxiosRequestConfig } from 'axios'
 import { RefetchOptions } from 'axios-hooks'
 import { BaseSyntheticEvent, ChangeEvent, useCallback, useRef, useState } from 'react'
 import { ReactComponent as Arrow } from '../../images/icon-arrow.svg'
-import { emailRegExPattern, SearchKeyType } from '../../types/Types'
-import { ipV6RegExPattern, ipv4RegExPattern, hostnameRegExPattern } from '../../types/Types'
+import { getSearchParam, emailRegExPattern, FormValues, SearchKeyType } from '../../types/FormValidationTypes'
 import cx from 'classnames'
 import { useForm, SubmitHandler, SubmitErrorHandler } from 'react-hook-form'
 import { FieldErrors } from 'react-hook-form/dist/types/errors'
 import { IpifyResponse } from '../../types/IpifyType'
 
-type FormValues = {
-  inputSearchValue?: string
-}
+// type FormValues = {
+//   inputSearchValue?: string
+// }
 
-const IPV4_REGEX = new RegExp(ipv4RegExPattern)
-const IPV6_REGEX = new RegExp(ipV6RegExPattern)
-const HOSTNAME_REGEX = new RegExp(hostnameRegExPattern)
-const EMAIL_REGEX = new RegExp(emailRegExPattern)
+// const IPV4_REGEX = new RegExp(ipv4RegExPattern)
+// const IPV6_REGEX = new RegExp(ipV6RegExPattern)
+// const HOSTNAME_REGEX = new RegExp(hostnameRegExPattern)
+// const EMAIL_REGEX = new RegExp(emailRegExPattern)
 
-const getSearchParam = (inputSearchValue: string): SearchKeyType => {
-  // Just look-up the client's Geo IP location.
-  if (inputSearchValue === '') {
-    return {}
-  }
+// const getSearchParam = (inputSearchValue: string): SearchKeyType => {
+//   // Just look-up the client's Geo IP location.
+//   if (inputSearchValue === '') {
+//     return {}
+//   }
 
-  let searchParam: SearchKeyType = {}
-  if (IPV4_REGEX.test(inputSearchValue) || IPV6_REGEX.test(inputSearchValue)) {
-    console.debug(
-      '🚀 ~ file: Header.tsx ~ line 88 ~ getSearchParam ~ inputSearchValue matches IP',
-      inputSearchValue
-    )
-    searchParam = { ipAddress: inputSearchValue }
-  } else if (EMAIL_REGEX.test(inputSearchValue)) {
-    console.debug(
-      '🚀 ~ file: Header.tsx ~ line 94 ~ getSearchParam ~ inputSearchValue matches Email',
-      inputSearchValue
-    )
-    searchParam = { email: inputSearchValue }
-  } else if (HOSTNAME_REGEX.test(inputSearchValue)) {
-    console.debug(
-      '🚀 ~ file: Header.tsx ~ line 100~ getSearchParam ~ inputSearchValue matches Hostname',
-      inputSearchValue
-    )
-    searchParam = { domain: inputSearchValue }
-  } else {
-    const testError = `inputSearchValue contains an invalid value: ${inputSearchValue}`
-    searchParam = { error: inputSearchValue }
-    console.error(testError)
-  }
-  return searchParam
-}
+//   let searchParam: SearchKeyType = {}
+//   if (IPV4_REGEX.test(inputSearchValue) || IPV6_REGEX.test(inputSearchValue)) {
+//     console.debug(
+//       '🚀 ~ file: Header.tsx ~ line 88 ~ getSearchParam ~ inputSearchValue matches IP',
+//       inputSearchValue
+//     )
+//     searchParam = { ipAddress: inputSearchValue }
+//   } else if (EMAIL_REGEX.test(inputSearchValue)) {
+//     console.debug(
+//       '🚀 ~ file: Header.tsx ~ line 94 ~ getSearchParam ~ inputSearchValue matches Email',
+//       inputSearchValue
+//     )
+//     searchParam = { email: inputSearchValue }
+//   } else if (HOSTNAME_REGEX.test(inputSearchValue)) {
+//     console.debug(
+//       '🚀 ~ file: Header.tsx ~ line 100~ getSearchParam ~ inputSearchValue matches Hostname',
+//       inputSearchValue
+//     )
+//     searchParam = { domain: inputSearchValue }
+//   } else {
+//     const testError = `inputSearchValue contains an invalid value: ${inputSearchValue}`
+//     searchParam = { error: inputSearchValue }
+//     console.error(testError)
+//   }
+//   return searchParam
+// }
 
 const SearchForm = (props: {
   axiosError: AxiosError<any, any> | null
@@ -110,6 +109,9 @@ const SearchForm = (props: {
     } else {
       refetch({
         params: searchObj,
+      }).catch(err => {
+        console.error(`🚀 ~ err:`, err)
+        setInputErrorMessage(true, `Error caught during refetch: ${JSON.stringify(err.message)}`)
       })
     }
   }
@@ -154,34 +156,36 @@ const SearchForm = (props: {
       >
         <div
           className={cx(
-            'ip-address relative flex h-[58px] w-full appearance-none rounded-2xl text-input',
+            'ip-address relative flex justify-between h-[58px] w-full appearance-none rounded-2xl text-input',
             'bg-white pl-6 text-black',
             invalidSearchInput ? 'border-[1px] border-solid border-red-600 text-red-600' : ''
           )}
         >
-          <input
-            {...register('inputSearchValue')}
-            type="text"
-            id="ip-address"
-            className={cx(
-              'ip-address h-full w-full appearance-none bg-transparent pl-6 text-input text-black',
-              'focus:outline-none focus-visible:outline-none',
-              invalidSearchInput ? 'text-red-600' : ''
-            )}
-            onChange={handleInputChange}
-            placeholder="Search for any IP address or domain"
-            ref={searchInputRef}
-          />
-          <div className="input-error  relative flex h-[5.8rem] w-fit">
-            {invalidInputMsg && (
-              <p className="flex items-center justify-center text-center text-error text-red-500">
-                <span className="inline-block">{invalidInputMsg}</span>
-                {isFormError() && formErrors.inputSearchValue?.message?.length && (
-                  <span className="inline-block">{formErrors.inputSearchValue.message}</span>
-                )}
-                {isApiError() && <span className="inline-block">No Results</span>}
-              </p>
-            )}
+          <div className="flex flex-col w-full h-full justify-end items-align">
+            <input
+              {...register('inputSearchValue')}
+              type="text"
+              id="ip-address"
+              className={cx(
+                'ip-address h-[2.1rem] w-full appearance-none bg-transparent text-input text-black',
+                'focus:outline-none focus-visible:outline-none',
+                invalidSearchInput ? 'text-red-600' : ''
+              )}
+              onChange={handleInputChange}
+              placeholder="Search for any IP address or domain"
+              ref={searchInputRef}
+            />
+            <div className="input-error relative flex w-full h-1/3">
+              {invalidInputMsg && (
+                <p className="flex items-center justify-center text-right text-error lg:text-error-lg text-red-500">
+                  <span className="inline-block">{invalidInputMsg}</span>
+                  {isFormError() && formErrors.inputSearchValue?.message?.length && (
+                    <span className="inline-block">{formErrors.inputSearchValue.message}</span>
+                  )}
+                  {/* {isApiError() && <span className="inline-block">No Results</span>} */}
+                </p>
+              )}
+            </div>
           </div>
           <button
             type="submit"
@@ -197,3 +201,4 @@ const SearchForm = (props: {
 }
 
 export default SearchForm
+

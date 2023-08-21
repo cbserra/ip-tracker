@@ -4,7 +4,8 @@ import { useState } from 'react'
 import SearchForm from './SearchForm'
 import SearchResults from './SearchResults'
 import cx from 'classnames'
-import { IpifyRequestConfigParams, IpifyResponse, SearchKeyType } from '../../types/IpifyType'
+import { IpifyRequestConfigParams, IpifyResponse } from '../../types/IpifyType'
+import { SearchKeyType } from '../../types/FormValidationTypes'
 
 const Header = (props: {
   axiosError: AxiosError<any, any> | null

@@ -47,7 +47,11 @@ module.exports = {
           lineHeight: '3.0rem',
           letterSpacing: '-0.232143px'
         }],
-        'error': ['1.2rem', {
+        'error': ['1.0rem', {
+          lineHeight: '1.2rem',
+          letterSpacing: '-0.23px'
+        }],
+        'error-lg': ['1.2rem', {
           lineHeight: '1.4rem',
           letterSpacing: '-0.23px'
         }],

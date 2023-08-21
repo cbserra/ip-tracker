@@ -35,29 +35,15 @@
   }
 
   .response-datum-container {
-    @apply w-full gap-y-[.7rem] lg:w-[20vw] lg:gap-y-[1.3rem];
+    @apply flex w-full flex-col gap-y-[.7rem] lg:w-[20vw] lg:gap-y-[1.3rem];
   }
 
   .response-key {
     @apply text-center font-sans text-key font-bold uppercase text-veryDarkGray opacity-50 mix-blend-normal lg:text-left lg:text-key-lg;
     @apply mb-2 lg:mb-3;
-
-    /* text-align: inherit; */
   }
 
   .response-value {
-    @apply font-sans text-value font-medium text-veryDarkGray lg:text-value-lg;
-
-    /* text-align: inherit; */
+    @apply align-text-top font-sans text-value font-medium text-veryDarkGray lg:text-value-lg;
   }
-
-  /* .header-info-border {
-    @apply border-l-[1px] border-black border-opacity-[.15] pl-8;
-  } */
-
-  /* .timezone-resp,
-  .isp-resp,
-  .location-resp {
-    @apply lg:header-info-border;
-  } */
 }

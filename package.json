@@ -60,14 +60,15 @@
     "typescript": "^4.7.4"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
     "@commitlint/prompt-cli": "^17.0.3",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^14.3.0",
-    "@types/leaflet": "^1.7.11",
     "@types/jest": "^28.1.6",
+    "@types/leaflet": "^1.7.11",
     "@types/node": "^18.0.6",
     "autoprefixer": "^10.4.7",
     "commitlint": "^17.0.3",
@@ -98,7 +99,17 @@
     "stylelint-config-sass-guidelines": "^9.0.1",
     "stylelint-config-standard": "^25.0.0",
     "stylelint-prettier": "^2.0.0",
+    "update-browserslist-db": "^1.0.11",
     "web-vitals": "^2.1.4"
+  },
+  "peerDependencies": {
+    "@babel/plugin-syntax-flow": "^7.14.5",
+    "@babel/plugin-transform-react-jsx": "^7.14.9",
+    "@testing-library/dom": "^7.21.4"
+  },
+  "resolutions": {
+    "yaml": "2.3.1",
+    "semver": "7.5.4",
+    "minimatch": "3.0.4"
   }
-  
 }

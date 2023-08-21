@@ -1,7 +1,7 @@
 import { AxiosRequestConfig } from 'axios'
 
 export type IpifySearchKey = 'ipAddress' | 'domain' | 'email' | 'error'
-export type SearchKeyType = { [key in IpifySearchKey]?: string }
+// export type SearchKeyType = { [key in IpifySearchKey]?: string }
 
 export type IpifyResponse = {
   ip: string
@@ -47,5 +47,9 @@ export const IPIFY_REQUEST_CONFIG: AxiosRequestConfig<IpifyRequestConfig> = {
   baseURL: IPIFY_END_POINT,
   params: {
     ...IPIFY_DEFAULT_PARAMS,
-  },
+  // },
+  // headers: {
+  //   'Access-Control-Allow-Origin': '*',
+  //   'Access-Control-Allow-Methods': 'PUT, POST, GET, DELETE, PATCH, OPTIONS'
+  }
 }

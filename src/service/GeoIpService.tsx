@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios'
 import Axios from 'axios'
-import { SearchKeyType } from '../types/Types'
+
 import {
   IP_API_API_KEY,
   IP_API_BASE_URL,
@@ -18,8 +18,8 @@ import { IP_GEO_CONFIG_REQUEST_PARAMS, IP_GEO_ENDPOINT } from '../types/IpGeoTyp
 import { UseAxios, configure, makeUseAxios } from 'axios-hooks'
 import LRU from 'lru-cache'
 import { IpGeoResponse } from '../types/IpGeoType'
-import { GenericResponse } from '../types/GenericResponse'
-import { determineDstOffset } from '../types/Types'
+import { GenericResponse, determineDstOffset } from '../types/GenericResponse'
+import { SearchKeyType } from '../types/FormValidationTypes'
 
 export const getIpGeoAddressInfo = async (
   ipOrDnsAddress?: SearchKeyType
@@ -80,14 +80,15 @@ export const getIpApiResponse = async (
 export const getIpifyResponse = async (
   input?: SearchKeyType
 ): Promise<AxiosResponse<IpifyResponse, any>> => {
-  const requestKey = Object.keys(input)[0]
-
   const response = await axios.get<IpifyResponse>(IPIFY_END_POINT, {
     method: 'GET',
     params: {
       ...IPIFY_DEFAULT_PARAMS,
       ...input,
     },
+    // headers: {
+    //   'Access-Control-Allow-Origin': '*',
+    // },
     transformResponse: (data: IpifyResponse): GenericResponse => {
       const transResp: GenericResponse = {
         ipAddress: data.ip,
@@ -108,6 +109,9 @@ export const getIpifyResponse = async (
 export const getIpifyUseAxios = (): UseAxios => {
   const axios = Axios.create({
     ...IPIFY_REQUEST_CONFIG,
+    // headers: {
+    //   'Access-Control-Allow-Origin': '*',
+    // },
     // transformResponse: (data: IpifyResponse): GenericResponse => {
     //   let jsonResp = JSON.stringify(data)
     //   console.log(`🚀 ~ getIpifyUseAxios ~ data:`, data)

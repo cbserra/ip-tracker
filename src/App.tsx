@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import Header from './components/header/Header'
 import MapComponent from './components/map/Map'
 import { getIpifyUseAxios } from './service/GeoIpService'
-import { IpifyResponse, SearchKeyType } from './types/IpifyType'
+import { IpifyResponse } from './types/IpifyType'
+import { SearchKeyType } from './types/FormValidationTypes'
 
 function App() {
   const [inputSearchValue, setInputSearchValue] = useState<SearchKeyType>()
