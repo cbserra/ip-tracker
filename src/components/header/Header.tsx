@@ -1,115 +1,61 @@
-import { AxiosError, AxiosPromise, AxiosRequestConfig } from "axios";
-import { RefetchOptions } from "axios-hooks";
-import {
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import {
-  IpGeoConfigRequestParams,
-} from "../../types/Types";
-import { IpGeoResponse } from "../../types/IpGeoType";
-import SearchForm from "./SearchForm";
-import SearchResults from "./SearchResults";
+import { AxiosError, AxiosPromise, AxiosRequestConfig } from 'axios'
+import { RefetchOptions } from 'axios-hooks'
+import { useState } from 'react'
+import SearchForm from './SearchForm'
+import SearchResults from './SearchResults'
+import cx from 'classnames'
+import { IpifyRequestConfigParams, IpifyResponse, SearchKeyType } from '../../types/IpifyType'
 
 const Header = (props: {
   axiosError: AxiosError<any, any> | null
-  data: IpGeoResponse;
-  refetch: (
-    config?: AxiosRequestConfig<any>,
-    options?: RefetchOptions
-  ) => AxiosPromise<any>;
-  refetchParams: IpGeoConfigRequestParams;
-  loading: boolean;
+  data: IpifyResponse
+  refetch: (config?: AxiosRequestConfig<any>, options?: RefetchOptions) => AxiosPromise<any>
+  // refetchParams: IpifyRequestConfigParams
+  loading: boolean
+  inputSearchValue: SearchKeyType
+  setInputSearchValue: React.Dispatch<React.SetStateAction<SearchKeyType>>
 }) => {
-  const axiosError = props.axiosError;
+  const axiosError = props.axiosError
   const data = props.data
-  const refetch = props.refetch;
-  const refetchParams = props.refetchParams;
-  const apiResponse = useRef<IpGeoResponse>(props.data);
-  const [inputIpAddress, setInputIpAddress] = useState<string>("");
-  const [invalidSearchInput, toggleInvalidSearchInput] = useState(false);
-  const [invalidInputMsg, setInvalidInputMsg] = useState<string>("");
-  const [loading, toggleLoading] = useState(props.loading);
-
-  useEffect(() => {
-    toggleLoading(props.loading);
-  }, [props.loading]);
-
-  useEffect(() => {
-    apiResponse.current = props.data;
-  }, [props.data]);
-
-  // const handleSubmit = useCallback(
-  //   (event: FormEvent<HTMLFormElement>) => {
-  //     event.preventDefault();
-  //     searchInputRef.current.setCustomValidity("");
-  //     console.debug("🚀 ~ file: Header.tsx ~ line 78 ~ event", event);
-  //     console.debug(
-  //       "🚀 ~ file: Header.tsx ~ line 81 ~ handleClick ~ inputIpAddress",
-  //       inputIpAddress
-  //     );
-
-  //     let searchParam: SearchKeyType = getSearchParam(inputIpAddress);
-  //     console.debug(
-  //       "🚀 ~ file: Header.tsx ~ line 112 ~ handleClick ~ searchParam",
-  //       searchParam
-  //     );
-
-  //     if (searchParam.error) {
-  //       console.error(`🚀 ~ searchParam:`, searchParam)
-  //       setInputErrorMessage(true, `Search input contains an invalid value: ${searchParam.error}`)
-  //     } else {
-  //       // const res = getIpGeoAddressInfo(searchParam)
-  //       getIpGeoAddressInfo(searchParam)
-  //       .then(function(response) {
-  //         console.info(response);
-  //         apiResponse.current = response.data
-  //       })
-  //       .catch(function(err) {
-  //         console.error(err);
-  //         setInputErrorMessage(true, [invalidInputMsg, err].join(','));
-  //       });
-  //       // console.log(`🚀 ~ res:`, res)
-        
-  //       // refetch({
-  //       //   params: { ...refetchParams, ...searchParam },
-  //       // }).catch((error) => {
-  //       //   setInputErrorMessage(
-  //       //   true,
-  //       //   `${error.message}: ${error.response.data.messages}`
-  //       // );
-  //       // console.error(
-  //       //   "🚀 ~ file: Header.tsx ~ line 118 ~ handleClick ~ error",
-  //       //   error
-  //       // );
-  //       // });
-  //     }
-  //   },
-  //   [inputIpAddress, invalidInputMsg]
-  // );
+  const refetch = props.refetch
+  // const refetchParams = props.refetchParams
+  const [inputSearchValue, setInputSearchValue] = [
+    props.inputSearchValue,
+    props.setInputSearchValue,
+  ]
+  const [invalidSearchInput, toggleInvalidSearchInput] = useState(false)
+  const [invalidInputMsg, setInvalidInputMsg] = useState<string>('')
+  const [loading, toggleLoading] = useState(props.loading)
 
   return (
-    <header className="relative flex flex-col gap-y-[2.4rem] lg:gap-y-[4.8rem] items-center justify-between h-[28rem] w-full text-white pt-6 transition-all duration-200">
-      <h1 className="relative text-heading lg:text-heading-lg font-medium">
-        IP Address Tracker
-      </h1>
-      <div className="relative flex items-center flex-col w-[32.7rem] gap-y-[2.4rem] lg:gap-y-[4.8rem] lg:w-[55.5rem]">
-        <SearchForm 
+    <header
+      className={cx(
+        'relative flex h-[28rem] w-full flex-col items-center justify-between pt-6',
+        'text-white transition-all duration-200',
+        'gap-y-[2.4rem] lg:gap-y-[4.8rem]'
+      )}
+    >
+      <h1 className="relative text-heading font-medium lg:text-heading-lg">IP Address Tracker</h1>
+      <div
+        className={cx(
+          'relative flex w-[32.7rem] flex-col items-center  lg:w-[55.5rem]',
+          'gap-y-[2.4rem]'
+        )}
+      >
+        <SearchForm
           axiosError={axiosError}
           data={data}
           refetch={refetch}
-          refetchParams={refetchParams}
+          // refetchParams={refetchParams}
           loading={loading}
+          inputSearchValue={inputSearchValue}
+          setInputSearchValue={setInputSearchValue}
         />
       </div>
 
-      <SearchResults
-        data={apiResponse.current}
-        loading={loading}
-      />
+      {!loading && data && <SearchResults data={data} loading={loading} />}
     </header>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

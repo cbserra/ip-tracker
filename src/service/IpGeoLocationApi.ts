@@ -24,7 +24,7 @@
 //   api.getGeolocation(handleResponse, geolocationParams);
 
 //   // let geolocationParams = new GeolocationParams();
-//   // geolocationParams.setIPAddress('1.1.1.1'); 
+//   // geolocationParams.setIPAddress('1.1.1.1');
 //   geolocationParams.setFields('geo,time_zone,currency');
 
 //   api.getGeolocation(handleResponse, geolocationParams);

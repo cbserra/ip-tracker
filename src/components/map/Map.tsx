@@ -1,26 +1,21 @@
-import L, { LatLng } from "leaflet";
+import L, { LatLng } from 'leaflet'
 
-import { useEffect, useRef, useState } from "react";
-import { MapContainer, Marker, TileLayer } from "react-leaflet";
-import iconLocation from "../../images/icon-location.svg";
-import "leaflet/dist/leaflet.css";
-import { Map as LeafletMap, Marker as LeafletMarker } from "leaflet";
+import { useEffect, useRef, useState } from 'react'
+import { MapContainer, Marker, TileLayer } from 'react-leaflet'
+import iconLocation from '../../images/icon-location.svg'
+import 'leaflet/dist/leaflet.css'
+import { Map as LeafletMap, Marker as LeafletMarker } from 'leaflet'
 
 const Map = (props: { latLng: number[] }) => {
-  const [latLong, setLatLong] = useState<LatLng>(
-    L.latLng(props.latLng[0], props.latLng[1])
-  );
-  const mapRef = useRef<LeafletMap>();
-  const markerRef = useRef<LeafletMarker>();
+  const [latLong, setLatLong] = useState<LatLng>(L.latLng(props.latLng[0], props.latLng[1]))
+  const mapRef = useRef<LeafletMap>()
+  const markerRef = useRef<LeafletMarker>()
 
   useEffect(() => {
-    const localLatLong: LatLng = L.latLng(props.latLng[0], props.latLng[1]);
-    console.log(
-      "🚀 ~ file: Map.tsx ~ line 15 ~ useEffect ~ localLatLong",
-      localLatLong
-    );
-    setLatLong(localLatLong);
-  }, [props.latLng]); //[handleOnFlyTo, props.latLng]);
+    const localLatLong: LatLng = L.latLng(props.latLng[0], props.latLng[1])
+    console.log('🚀 ~ file: Map.tsx ~ line 15 ~ useEffect ~ localLatLong', localLatLong)
+    setLatLong(localLatLong)
+  }, [props.latLng]) //[handleOnFlyTo, props.latLng]);
 
   useEffect(() => {
     if (mapRef.current) {
@@ -28,13 +23,13 @@ const Map = (props: { latLng: number[] }) => {
         animate: true,
         duration: 5,
         easeLinearity: 1,
-      });
+      })
     }
 
     if (markerRef.current) {
-      markerRef.current.setLatLng(latLong);
+      markerRef.current.setLatLng(latLong)
     }
-  }, [latLong]);
+  }, [latLong])
 
   return (
     <main>
@@ -61,7 +56,7 @@ const Map = (props: { latLng: number[] }) => {
         ></Marker>
       </MapContainer>
     </main>
-  );
-};
+  )
+}
 
-export default Map;
+export default Map

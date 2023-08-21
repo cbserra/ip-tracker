@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -8,19 +8,20 @@
   html {
     @apply text-base;
   }
-  
+
   html,
   body {
-    @apply h-full w-full m-0 p-0 font-sans antialiased bg-white text-black;
+    @apply m-0 h-full w-full bg-white p-0 font-sans text-black antialiased;
   }
 
   * {
-    @apply transition-all duration-200 box-border;
+    @apply box-border transition-all duration-200;
   }
 
   header::before {
-    @apply opacity-75 bg-cover absolute top-0 left-0 right-0 bottom-0;
-    content: "";
+    @apply absolute top-0 left-0 right-0 bottom-0 bg-cover opacity-75;
+
+    content: '';
   }
 
   header {
@@ -29,26 +30,24 @@
 }
 
 @layer utilities {
-   .hor-line {
-      @apply hidden lg:inline w-[.1rem] bg-black bg-opacity-[.15] h-full;
-    /* width: 1px;
-    background-color: rgb(0 0 0 / .15);
-    height: 100%; */
-    /* padding-left: 2rem; */
+  .hor-line {
+    @apply hidden h-full w-[.1rem] bg-black bg-opacity-[.15] lg:inline;
   }
 
   .response-datum-container {
-    @apply gap-y-[.7rem] lg:gap-y-[1.3rem] w-full lg:w-[20vw];
+    @apply w-full gap-y-[.7rem] lg:w-[20vw] lg:gap-y-[1.3rem];
   }
 
   .response-key {
-    @apply text-center font-sans font-bold text-key mix-blend-normal uppercase opacity-50 text-veryDarkGray lg:text-left lg:text-key-lg;
+    @apply text-center font-sans text-key font-bold uppercase text-veryDarkGray opacity-50 mix-blend-normal lg:text-left lg:text-key-lg;
     @apply mb-2 lg:mb-3;
+
     /* text-align: inherit; */
   }
 
   .response-value {
-    @apply font-sans font-medium text-value text-veryDarkGray lg:text-value-lg;
+    @apply font-sans text-value font-medium text-veryDarkGray lg:text-value-lg;
+
     /* text-align: inherit; */
   }
 
