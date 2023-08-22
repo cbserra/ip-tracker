@@ -7,7 +7,9 @@ import 'leaflet/dist/leaflet.css'
 import { Map as LeafletMap, Marker as LeafletMarker } from 'leaflet'
 
 const Map = (props: { latLng: number[] }) => {
-  const [latLong, setLatLong] = useState<LatLng>(L.latLng(props.latLng[0], props.latLng[1]))
+  const [latLong, setLatLong] = useState<LatLng>(
+    L.latLng(props.latLng[0] || 0, props.latLng[1] || 0)
+  )
   const mapRef = useRef<LeafletMap>()
   const markerRef = useRef<LeafletMarker>()
 

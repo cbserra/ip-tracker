@@ -28,7 +28,7 @@ const Header = (props: {
   return (
     <header
       className={cx(
-        'h-[28rem] relative flex w-full flex-col items-center justify-between pt-6',
+        'relative flex h-[28rem] w-full flex-col items-center justify-between pt-6',
         'text-white transition-all duration-200',
         'gap-y-[2.4rem] lg:gap-y-[4.8rem]'
       )}
@@ -36,7 +36,7 @@ const Header = (props: {
       <h1 className="relative text-heading font-medium lg:text-heading-lg">IP Address Tracker</h1>
       <div
         className={cx(
-          'w-[32.7rem] lg:w-[55.5rem] relative flex flex-col  items-center',
+          'relative flex w-[32.7rem] flex-col items-center  lg:w-[55.5rem]',
           'gap-y-[2.4rem]'
         )}
       >

@@ -7,12 +7,12 @@ import { SearchKeyType } from './types/FormValidationTypes'
 
 function App() {
   const [inputSearchValue, setInputSearchValue] = useState<SearchKeyType>()
-  const [latLng, setLatLng] = useState<number[]>([])
+  const [latLng, setLatLng] = useState<number[]>([0, 0])
   const useAxios = getIpifyUseAxios()
   const [{ data, loading, error }, refetch] = useAxios<IpifyResponse>({})
 
   useEffect(() => {
-    if (data) {
+    if (data?.location) {
       console.debug('🚀 ~ file: App.tsx ~ line 63 ~ useEffect ~ data', data)
       setLatLng([data.location.lat, data.location.lng])
     }
@@ -20,7 +20,7 @@ function App() {
 
   return (
     <>
-      {data && (
+      {/* {data && (
         <Header
           axiosError={error}
           data={data}
@@ -30,9 +30,18 @@ function App() {
           inputSearchValue={inputSearchValue}
           setInputSearchValue={setInputSearchValue}
         />
-      )}
-
-      {latLng.length === 2 && <MapComponent latLng={latLng} />}
+      )} */}
+      <Header
+        axiosError={error}
+        data={data}
+        refetch={refetch}
+        // refetchParams={apiParams}
+        loading={loading}
+        inputSearchValue={inputSearchValue}
+        setInputSearchValue={setInputSearchValue}
+      />
+      {/* {latLng.length === 2 && <MapComponent latLng={latLng} />} */}
+      <MapComponent latLng={latLng} />
     </>
   )
 }
