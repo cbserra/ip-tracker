@@ -44,7 +44,7 @@
   "dependencies": {
     "@types/react": "^18.0.14",
     "@types/react-dom": "^18.0.5",
-    "axios": "^0.27.2",
+    "axios": "^1.6.0",
     "axios-cache-adapter": "^2.7.3",
     "axios-cache-plugin": "^0.1.0",
     "axios-hooks": "^3.1.3",
